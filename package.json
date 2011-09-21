@@ -1,0 +1,10 @@
+{
+    "name": "jschema"
+  , "version": "0.0.1"
+  , "description": "javascript object schema"
+  , "keywords": []
+  , "author": "hidden <zzdhidden@gmail.com>"
+  , "dependencies": {}
+  , "main": "index"
+  , "engines": { "node": ">=0.4.x" }
+}
