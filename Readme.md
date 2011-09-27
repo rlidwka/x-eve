@@ -1,6 +1,7 @@
 
 jschema(not ready)
-----------------------------------
+=============================
+
 
   javascript object schema
 
