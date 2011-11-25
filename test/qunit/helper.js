@@ -1,8 +1,8 @@
 QUnit = require("./qunit.js").QUnit;
 var qunitTap = require("./qunit-tap.js").qunitTap;
 
-var sys = tryRequireThese("sys", "system");
-puts = (typeof sys.puts === 'function') ? sys.puts : sys.print;
+var util = tryRequireThese("util", "system");
+puts = (typeof util.log === 'function') ? console.log : util.print;
 
 qunitTap(QUnit, puts, {noPlan: true});
 
