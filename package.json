@@ -1,13 +1,14 @@
 {
-	"name": "jschema"
+	"name": "EVE"
 	, "version": "0.0.1"
-	, "description": "javascript object schema"
-	, "keywords": []
-	, "author": "hidden <zzdhidden@gmail.com>"
+	, "description": "A JavaScript object schema, process and validation lib."
+	, "keywords": ["schema", "process", "validate"]
+	, "author": "Hidden <zzdhidden@gmail.com>"
 	, "dependencies": {}
 	, "devDependencies": { 
 		"mocha": "0.0.8"
 	}
 	, "main": "index"
 	, "engines": { "node": ">=0.4.x" }
+	, "repository" : { "type" :  "git", "url" : "http://github.com/zzdhidden/EVE.git" }
 }

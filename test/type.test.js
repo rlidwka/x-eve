@@ -1,6 +1,6 @@
 require("./helper.js");
 
-var type = jschema.type;
+var type = eve.type;
 
 describe("type", function() {
 	describe("any", function() {

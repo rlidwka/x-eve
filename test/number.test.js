@@ -2,7 +2,7 @@
 require("./helper.js");
 
 describe("type", function() {
-	var type = jschema.type;
+	var type = eve.type;
 	describe("number", function() {
 
 		it("should have number type", function() {

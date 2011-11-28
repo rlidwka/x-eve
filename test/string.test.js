@@ -3,7 +3,7 @@ require("./helper.js");
 
 describe("type", function() {
 	describe("string", function() {
-		var type = jschema.type;
+		var type = eve.type;
 
 		it("should have string type", function() {
 			ok( type.string );

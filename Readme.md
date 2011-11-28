@@ -1,9 +1,8 @@
 
-jschema(not ready)
+EVE(development)
 =============================
 
-
-  javascript object schema
+A JavaScript object schema, process and validation lib.
 
 ## License 
 

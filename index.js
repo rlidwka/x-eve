@@ -1,2 +1,2 @@
 
-module.exports = require('./lib/jschema');
+module.exports = require('./lib/eve');

@@ -2,7 +2,7 @@ require("./helper.js");
 
 describe("examples", function() {
 	describe("signup_user", function() {
-		var type = jschema.type;
+		var type = eve.type;
 		var user = {
 			login: "test"
 			, name: "Test"

@@ -8,7 +8,7 @@ if ( typeof require !== "undefined" ) {
 	notDeepEqual = assert.notDeepEqual;
 	strictEqual = assert.strictEqual;
 	notStrictEqual = assert.notStrictEqual;
-	jschema = require("../index.js");
+	eve = require("../index.js");
 } else {
 	//browser
 	var  require = function() {
