@@ -4,11 +4,12 @@ var type = jschema.type;
 
 describe("type", function() {
 	describe("any", function() {
-		it("shoud have any type", function() {
+
+		it("should have any type", function() {
 			ok( type.any );
 		});
 
-		it("shoud can check exist and empty", function() {
+		it("should can check exist and empty", function() {
 			ok( type.any().required().value(null).validate() );
 			ok( !type.any().required().value("").validate() );
 
@@ -16,14 +17,24 @@ describe("type", function() {
 			ok( type.any().notEmpty().value("").validate() );
 		});
 
-		it("shoud return in callback", function(done) {
+		it("should return in callback", function(done) {
 			type.any().required().value(null).validate(function(err) {
 				ok( err );
 				done();
 			});
 		});
-		it("shoud can add sync validator", function(done) {
-			var schema = type.any().notEmpty().validator(function(val) {
+
+		it("should skip validator when empty", function(done) {
+			type.any().validator(function(val) {
+				return val === 10;
+			}).value(null).validate(function(err) {
+				ok(!err);
+				done();
+			});
+		});
+
+		it("should can add sync validator", function(done) {
+			var schema = type.any().validator(function(val) {
 				return val == 10;
 			}, "equal 10");
 			ok( schema.value(9).validate() );
@@ -33,7 +44,8 @@ describe("type", function() {
 				done();	
 			});
 		});
-		it("shoud can add async validator", function(done) {
+
+		it("should can add async validator", function(done) {
 			var schema = type.any().notEmpty().validator(function(val, done) {
 				setTimeout(function() {
 					done( val == 10 );
@@ -45,12 +57,12 @@ describe("type", function() {
 			});
 		});		
 
-		it("shoud set default value", function() {
+		it("should set default value", function() {
 			equal(type.any().default("ok").value(null).value(), "ok");
 			equal(type.any().default("ok").value(undefined).value(), "ok");
 		});
 
-		it("shoud can add a processor", function() {
+		it("should can add a processor", function() {
 			var schema = type.any().processor(function(val) {
 				return val * 2;
 			});
@@ -59,3 +71,4 @@ describe("type", function() {
 
 	});
 });
+
