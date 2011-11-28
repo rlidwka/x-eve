@@ -33,6 +33,14 @@ describe("type", function() {
 			strictEqual( type.integer().val("23dd").val(), 23 );
 			strictEqual( type.integer().val("23.11").val(), 23 );
 			strictEqual( type.integer().val(23.11).val(), 23 );
+			strictEqual( type.integer().val("sfd").val(), null );
+			strictEqual( type.integer().val(null).val(), null );
+			strictEqual( type.integer().val(0).val(), 0 );
+		});
+
+		it("should support enum validate", function() {
+			ok(!type.integer().enum([1, 2, 3]).val(1).validate());
+			ok(type.integer().enum([1, 2, 3]).val(0).validate());
 		});
 	});
 });

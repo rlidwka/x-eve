@@ -64,6 +64,11 @@ describe("type", function() {
 			} );
 		});
 
+		it("should support enum validate", function() {
+			ok(!type.string().enum(["male", "famale"]).val("male").validate());
+			ok(type.string().enum(["male", "famale"]).val("other").validate());
+		});
+
 	});
 });
 
