@@ -16,7 +16,7 @@ A JavaScript object schema, process and validation lib.
 		, password: type.string().trim().notEmpty().len(6,12)
 		, password_confirmation: type.string().trim().notEmpty().len(6,12).validator(function(val){
 			return val == this.password;
-		}, "Must be equal to password")
+		}, "must be equal to password")
 		, birthday: type.date()
 		, age: type.integer()
 	});
