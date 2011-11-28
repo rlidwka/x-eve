@@ -11,4 +11,6 @@ if ( typeof require !== "undefined" ) {
 	jschema = require("../index.js");
 } else {
 	//browser
+	var  require = function() {
+	}
 }

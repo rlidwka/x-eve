@@ -1,6 +1,4 @@
-if ( typeof require !== "undefined" ) {
-	require("./helper.js");
-}
+require("./helper.js");
 
 describe("validator", function() {
 	describe("version", function() {
