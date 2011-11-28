@@ -14,11 +14,11 @@ describe("examples", function() {
 		};
 
 		var schema = type.object({
-			user: type.string().lowercase().trim().notEmpty().len(3,12).match(/^[a-zA-Z0-9]*$/).validator(function(val, done) {
+			login: type.string().lowercase().trim().notEmpty().len(3,12).match(/^[a-zA-Z0-9]*$/).validator(function(val, done) {
 				setTimout(function() {
-					done(false);
+					done(val != "admin");
 				}, 100);
-			}, "Login must be unique")
+			}, "must be unique")
 			, name: type.string().trim().notEmpty()
 			, email: type.string().trim().notEmpty().email()
 			, password: type.string().trim().notEmpty().len(6,12)
