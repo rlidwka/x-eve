@@ -14,7 +14,7 @@ describe("type", function() {
 			ok( !type.any().required().value("").validate() );
 
 			ok( type.any().notEmpty().value(null).validate() );
-			ok( type.any().notEmpty().value("").validate() );
+			ok( type.any().notEmpty().value("  ").validate() );
 		});
 
 		it("should return in callback", function(done) {
