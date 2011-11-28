@@ -1,64 +1,83 @@
 if ( typeof require !== "undefined" ) {
-	require("./qunit/helper.js");
-	var jschema = require("../index.js");
-	module = QUnit.module;
+	require("./helper.js");
 }
 
-module("validator");
+describe("validator", function() {
+	describe("version", function() {
+		it('should have version', function() {
+			ok(jschema.version);
+		});
+	});
 
-test("version", function() {
-	ok(jschema.version);
+	describe("type", function() {
+		it("should recognise array", function() {
+			ok( jschema.validator.isArray([]) );
+		});
+		it("should recognise function", function() {
+			ok( jschema.validator.isFunction(function(){}) );
+			ok( !jschema.validator.isFunction(/d/) );
+		});
+
+		it("should recognise object", function() {
+			ok( jschema.validator.isObject({}) );
+			ok( !jschema.validator.isObject("") );
+			ok( !jschema.validator.isObject([]) );
+			ok( !jschema.validator.isObject(function(){}) );
+			ok( !jschema.validator.isObject(/d/) );
+			ok( !jschema.validator.isObject(new Date()) );
+		});
+
+		it("should recognise data", function() {
+			ok( jschema.validator.isDate(new Date()) );
+		});
+		it("should recognise regexp", function() {
+			ok( jschema.validator.isRegExp(/d/) );
+		});
+
+		it("should recognise boolean", function() {
+			ok( jschema.validator.isBoolean(false) );
+			ok( jschema.validator.isBoolean(true) );
+		});
+
+		it("should recognise number", function() {
+			ok( jschema.validator.isNumber(1.2) );
+			ok( jschema.validator.isInteger(1) );
+			ok( !jschema.validator.isInteger(1.2) );
+		});
+	});
+
+	describe("email", function() {
+		it("should recognise email", function() {
+			ok( jschema.validator.isEmail("test@mail.com") );
+			ok( jschema.validator.isEmail("test.pub@mail.com") );
+			ok( jschema.validator.isEmail("test-pub@mail.com") );
+			ok( !jschema.validator.isEmail("test.mail.com") );
+		});
+	});
+
+	describe("url", function() {
+		it("should recognise url", function() {
+			ok( jschema.validator.isUrl("http:\/\/g.com") );
+			ok( jschema.validator.isUrl("https:\/\/g.com") );
+			ok( jschema.validator.isUrl("https:\/\/g.cn") );
+			ok( jschema.validator.isUrl("g.cn") );
+		});
+	});
+
+	describe("len", function() {
+
+		it("should check right length of string", function() {
+			ok( jschema.validator.len("100", 3) );
+			ok( !jschema.validator.len("100", 2, "4") );
+			ok( jschema.validator.len("100", 3, 4) );
+			ok( !jschema.validator.len("100", 4) );
+		});
+
+		it("should check right length of array", function() {
+			ok( jschema.validator.len([1,3,4], 3) );
+			ok( jschema.validator.len([1,3,4], 3, 4) );
+			ok( !jschema.validator.len([1,3,4], 4) );
+		});
+	});
+
 });
-
-test("type", function() {
-	ok( jschema.validator.isArray([]), "[] is array" );
-	ok( jschema.validator.isFunction(function(){}), "check function" );
-	ok( !jschema.validator.isFunction(/d/), "regexp is not function" );
-
-	ok( jschema.validator.isObject({}), "check object" );
-	ok( !jschema.validator.isObject(""), "string is not object" );
-	ok( !jschema.validator.isObject([]), "array is not object" );
-	ok( !jschema.validator.isObject(function(){}), "function is not object" );
-	ok( !jschema.validator.isObject(/d/), "regexp is not object" );
-	ok( !jschema.validator.isObject(new Date()), "date is not object" );
-
-	ok( jschema.validator.isDate(new Date()), "check date" );
-	ok( jschema.validator.isRegExp(/d/), "check RegExp" );
-
-	ok( jschema.validator.isBoolean(false), "check boolean" );
-	ok( jschema.validator.isBoolean(true), "check boolean" );
-
-	ok( jschema.validator.isNumber(1.2), "check number" );
-	ok( jschema.validator.isInteger(1), "check integer" );
-	ok( !jschema.validator.isInteger(1.2), "Integer not float" );
-});
-
-test("email", function() {
-	ok( jschema.validator.isEmail("test@mail.com"), "regluar email" );
-	ok( jschema.validator.isEmail("test.pub@mail.com"), "email name with dot" );
-	ok( jschema.validator.isEmail("test-pub@mail.com"), "email name with -" );
-	ok( !jschema.validator.isEmail("test.mail.com"), "not email" );
-});
-
-
-
-test("url", function() {
-	ok( jschema.validator.isUrl("http://g.com"), "regluar url" );
-	ok( jschema.validator.isUrl("https://g.com"), "https url" );
-	ok( jschema.validator.isUrl("https://g.cn"), "suffix cn" );
-	ok( jschema.validator.isUrl("g.cn"), "not a url" );
-});
-
-test("len", function() {
-
-	ok( jschema.validator.len("100", 3), "string length of 3" );
-	ok( !jschema.validator.len("100", 2, "4"), "ignore argument not number" );
-	ok( jschema.validator.len("100", 3, 4), "string len in [ min  max ]" );
-	ok( !jschema.validator.len("100", 4), "string not length of 4" );
-
-	ok( jschema.validator.len([1,3,4], 3), "array length of 3" );
-	ok( jschema.validator.len([1,3,4], 3, 4), "array len in [ min  max ]" );
-	ok( !jschema.validator.len([1,3,4], 4), "array not length of 4" );
-
-});
-
