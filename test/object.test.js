@@ -58,6 +58,17 @@ describe("type", function() {
 			errs = schema.validate(true);
 			ok ( !errs );
 		});
+
+		it("should support context in coustom validator", function() {
+			var schema = type.object({ 
+				login: type.string().validator(function(val) {
+					ok( this.login );
+					equal( this.login, "admin" );
+					return true;
+				})
+			});
+			schema.val({login: "admin"}).validate();
+		});
 	});
 });
 
