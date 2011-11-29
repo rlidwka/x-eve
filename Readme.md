@@ -1,8 +1,8 @@
 
-EVE(development)
+EVE(Development)
 =============================
 
-A JavaScript object schema, process and validation lib.
+A JavaScript object schema, processor and validation lib.
 
 	var type = require("EVE").type;
 	var schema = type.object({
