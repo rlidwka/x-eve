@@ -15,7 +15,7 @@ describe("examples", function() {
 
 		var schema = type.object({
 			login: type.string().lowercase().trim().notEmpty().len(3,12).match(/^[a-zA-Z0-9]*$/).validator(function(val, done) {
-				setTimout(function() {
+				setTimeout(function() {
 					done(val != "admin");
 				}, 100);
 			}, "must be unique")
