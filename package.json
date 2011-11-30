@@ -1,6 +1,6 @@
 {
 	"name": "EVE"
-	, "version": "0.0.2"
+	, "version": "0.0.3"
 	, "description": "A JavaScript object schema, processor and validation lib."
 	, "keywords": ["schema", "process", "validate"]
 	, "author": "Hidden <zzdhidden@gmail.com>"
