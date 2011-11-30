@@ -11,11 +11,11 @@ describe("error", function() {
 		equal(err.length, 0);
 		err.push( null, "is invalid", "Name" );
 		equal(err.length, 1);
-		var msgs = err.messages();
+		var msgs = err.messages(true);
 		ok( msgs );
 		equal( msgs.length, 1 );
 		equal( msgs[0], "is invalid" );
-		msgs = err.messages(true);
+		msgs = err.messages();
 		equal( msgs[0], "Name is invalid" );
 	});
 
@@ -23,7 +23,7 @@ describe("error", function() {
 		var err = new error();
 		err.push( "name", "is invalid" );
 		err.push( "password", "is invalid", "Password" );
-		var msgs = err.messages(true);
+		var msgs = err.messages();
 		ok( msgs );
 		equal( msgs.length, 2 );
 		equal( msgs[0], "name is invalid" );
@@ -40,13 +40,13 @@ describe("error", function() {
 		err2.push( "name", err );
 		err2.push( "password", err1 );
 
-		var msgs = err2.messages();
+		var msgs = err2.messages(true);
 		ok( msgs );
 		equal( msgs.length, 2 );
 		equal( msgs[0], "is invalid" );
-		msgs = err2.messages(true);
+		msgs = err2.messages();
 		equal( msgs[0], "Name is invalid" );
-		msgs = err2.on("name", true);
+		msgs = err2.on("name");
 		equal( msgs.length, 1 );
 		equal( msgs[0], "Name is invalid" );
 	});
