@@ -33,13 +33,13 @@ describe("type", function() {
 
 		it("should be unique", function(done) {
 			schema.val("admin").validate(function(err) {
-				ok( err && err[0] );
+				ok( err && err.messages() );
 				done();
 			});
 		});
 		it("should be an email address", function(done) {
 			type.string().email().val("dd").validate( function(err) {
-				ok( err && err[0] );
+				ok( err && err.messages() );
 			} );
 
 			type.string().email().val("sdf@wer.com").validate( function(err) {
@@ -48,15 +48,15 @@ describe("type", function() {
 
 			type.string().email("be an email").val("dd").validate( function(err) {
 				ok( err );
-				equal( err.length, 1 );
-				equal( err[0], "be an email" );
+				equal( err.messages().length, 1 );
+				equal( err.messages(true)[0], "be an email" );
 				done();
 			} );
 		});
 
 		it("should be a url", function() {
 			type.string().url().val("http").validate( function(err) {
-				ok( err && err[0] );
+				ok( err && err.messages() );
 			} );
 
 			type.string().url().val("http://google.com").validate( function(err) {

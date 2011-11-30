@@ -24,7 +24,7 @@ describe("type", function() {
 			schema.val({login: "t", email: "g.com"});
 			var errs = schema.validate(function(errs) {
 				ok( errs );
-				equal( errs.length, 2 );
+				equal( errs.messages().length, 2 );
 				done();
 			});
 			ok( errs );
@@ -45,7 +45,7 @@ describe("type", function() {
 			});
 			schema.val({login: "admin", email: "t@g.com"}).validate(function(errs) {
 				ok( errs );
-				equal( errs.length, 2 );
+				equal( errs.messages().length, 2 );
 				done();
 			});
 		});
@@ -54,7 +54,7 @@ describe("type", function() {
 			schema.val({login: "test"});
 			var errs = schema.validate();
 			ok( errs );
-			equal( errs.length, 1 );
+			equal( errs.messages().length, 1 );
 			errs = schema.validate(true);
 			ok ( !errs );
 		});
@@ -68,6 +68,20 @@ describe("type", function() {
 				})
 			});
 			schema.val({login: "admin"}).validate();
+		});
+
+		it("should output with alias", function() {
+			schema = type.object({
+				login: type.string().alias("Login").trim().lowercase().notEmpty().len(3,12)
+				, email: type.string().alias("Email").trim().notEmpty().email()
+			});
+
+			schema.val({ login: "t", email: "e"}).validate(function(err) {
+				ok( err );
+				var msgs = err.messages();
+				ok( !msgs[0].indexOf("Login") );
+				ok( !msgs[1].indexOf("Email") );
+			});
 		});
 	});
 });

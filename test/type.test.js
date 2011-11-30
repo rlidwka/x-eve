@@ -69,6 +69,15 @@ describe("type", function() {
 			equal(schema.value(10).value(), 20);
 		});
 
+		it("should output mssage with alias", function() {
+			var schema = type.any().alias("Name").notEmpty().validator(function(val) {
+				return false;
+			}, "is invalid");
+			var err = schema.val("test").validate();
+			ok( err );
+			equal(err.messages()[0], "Name is invalid");
+		});
+
 	});
 });
 
