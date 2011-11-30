@@ -1,9 +1,9 @@
 EVE(Development)
 =============================
 
-![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
-
 A JavaScript object schema, processor and validation lib.
+
+![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
 
 	var type = require("EVE").type;
 	var schema = type.object({
