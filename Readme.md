@@ -1,7 +1,7 @@
-![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
-
 EVE(Development)
 =============================
+
+![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
 
 A JavaScript object schema, processor and validation lib.
 
