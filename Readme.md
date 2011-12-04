@@ -6,7 +6,8 @@ A JavaScript object schema, processor and validation lib.
 ![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
 
 	var schema = type.object({
-		login: type.string()
+		login: 
+			type.string()
 			.lowercase().trim()
 			.notEmpty().len(3,12)
 			.match(/^[a-zA-Z0-9]*$/)
@@ -15,22 +16,28 @@ A JavaScript object schema, processor and validation lib.
 					done(val != "admin");
 				}, 100);
 			}, "must be unique")
-		, name: type.string()
+		, name: 
+			type.string()
 			.trim().notEmpty()
-		, email: type.string()
+		, email: 
+			type.string()
 			.trim().notEmpty()
 			.email()
-		, password: type.string()
+		, password: 
+			type.string()
 			.trim().notEmpty()
 			.len(6,12)
-		, password_confirmation: type.string()
+		, password_confirmation: 
+			type.string()
 			.trim().notEmpty()
 			.len(6,12)
 			.validator(function(val){
 				return val == this.password;
 			}, "must be equal to password")
-		, birthday: type.date()
-		, age: type.integer()
+		, birthday: 
+			type.date()
+		, age: 
+			type.integer()
 	});
 
 
