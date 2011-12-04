@@ -23,12 +23,20 @@ describe("examples", function() {
 						done(val != "admin");
 					}, 100);
 				}, "must be unique")
-			, name: type.string().trim().notEmpty()
-			, email: type.string().trim().notEmpty().email()
-			, password: type.string().trim().notEmpty().len(6,12)
-			, password_confirmation: type.string().trim().notEmpty().len(6,12).validator(function(val){
-				return val == this.password;
-			}, "must be equal to password")
+			, name: type.string()
+				.trim().notEmpty()
+			, email: type.string()
+				.trim().notEmpty()
+				.email()
+			, password: type.string()
+				.trim().notEmpty()
+				.len(6,12)
+			, password_confirmation: type.string()
+				.trim().notEmpty()
+				.len(6,12)
+				.validator(function(val){
+					return val == this.password;
+				}, "must be equal to password")
 			, birthday: type.date()
 			, age: type.integer()
 		});
