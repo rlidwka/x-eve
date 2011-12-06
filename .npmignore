@@ -3,3 +3,4 @@ test
 examples
 *.sock
 npm-debug.log
+node_modules
