@@ -1,12 +1,12 @@
 {
 	"name": "EVE"
-	, "version": "0.0.4"
+	, "version": "0.0.5"
 	, "description": "A JavaScript object schema, processor and validation lib."
 	, "keywords": ["schema", "process", "validate"]
 	, "author": "Hidden <zzdhidden@gmail.com>"
 	, "dependencies": {}
 	, "devDependencies": { 
-		"mocha": "0.0.8"
+		"mocha": "*"
 	}
 	, "main": "index"
 	, "engines": { "node": ">=0.4.x" }
