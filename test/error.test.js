@@ -6,22 +6,26 @@ describe("error", function() {
 		ok( error );
 	});
 
-	it("should push message without key", function() {
+	it("should push message", function() {
 		var err = new error();
 		equal(err.ok, false);
 
 		err.alias( "Name" );
 
 		err.push( "is invalid" );
+		err.push( "is not empty" );
 
-		equal(err.ok, true);
+		equal( err.ok, true );
 
 		var msgs = err.messages( true );
 		ok( msgs );
-		equal( msgs.length, 1 );
+		equal( msgs.length, 2 );
 		equal( msgs[0], "is invalid" );
 		msgs = err.messages();
 		equal( msgs[0], "Name is invalid" );
+
+		equal( err.message.match(/Name/g).length, 2 );
+
 	});
 
 	it("should push error object", function() {
@@ -47,7 +51,20 @@ describe("error", function() {
 		equal( msgs.length, 1 );
 		equal( msgs[0], "Name is invalid" );
 
+		ok( err2.message.match(/Name/) );
+		ok( err2.message.match(/Password/) );
+
 	});
+
+	it("should work with Error", function() {
+		var err = new error();
+		err.alias( "Name" );
+		err.push( "is invalid" );
+		err.push( "is not empty" );
+
+		ok( err instanceof Error );
+	});
+
 });
 
 
