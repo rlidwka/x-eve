@@ -83,6 +83,13 @@ describe("type", function() {
 				ok( !msgs[1].indexOf("Email") );
 			});
 		});
+		it("should be able to recognize type alias", function() {
+			schema = type.object({
+				login: String
+				, email: String
+			});
+			strictEqual( schema.val( { login: 123 } ).val().login, "123" );
+		});
 	});
 });
 

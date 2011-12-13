@@ -78,6 +78,12 @@ describe("type", function() {
 			equal(err.messages()[0], "Name is invalid");
 		});
 
+		it("should enable map Object to type", function() {
+			ok( type( String ) instanceof type.string );
+			ok( type( type.string() ) instanceof type.string );
+			ok( !type("not a type") );
+		});
+
 	});
 });
 
