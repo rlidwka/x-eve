@@ -30,6 +30,10 @@ describe("type", function() {
 			equal( errs.messages().length, 2 );
 		});
 
+		it("should be able to recognize type alias", function() {
+			var data = type.array( { login: String } ).val( [{login: 123}] ).val();
+			strictEqual( data[0].login, "123" );
+		});
 	});
 
 });
