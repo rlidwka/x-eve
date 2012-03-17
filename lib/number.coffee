@@ -37,5 +37,5 @@ type.extend "integer", numberInstance,
 		validator.isNumber( obj ) && validator.mod( obj )
 	
 	from: ( obj ) ->
-		obj = parseInt obj
+		obj = parseInt obj, 10
 		if obj then obj else ( if obj == 0 then 0 else null )
