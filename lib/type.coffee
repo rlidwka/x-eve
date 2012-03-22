@@ -11,12 +11,23 @@ error = require("./error.js")
 
 _mapper = {} 
 
+process = (schema, val, context) ->
+  processors = schema.processors
+  len = processors.length
+  fn = (processor) -> val = processor.call(context || null, val)
+  fn processor for processor in processors
+  val
+
 type = module.exports = ( key ) ->
   if( key && key.type && type[key.type] && key instanceof type[key.type] )
     #Check type
     return key
   
-  key = ( if _mapper[key] then _mapper[key] else null )
+  if _mapper[key]
+    key = _mapper[key]
+  else 
+    key = null
+
   return key && type[ key ] && type[ key ]() || null
 
 instanceMethods = {
@@ -91,13 +102,21 @@ extend = (name, instance, static) ->
         @processors = []
         if ( typeof @init == "function" )
           @init.apply( @, if args.callee then args else arguments )
+        return @
       else 
         return new arguments.callee( arguments )
     valFn = (value) ->
       self = @
       if( !arguments.length ) then return self._value
-      value = if validator.exists(value) then value else (self.default() || value)
-      self._value = if (typeof any.from == "function") then any.from( value ) else value
+      if validator.exists(value)
+        #value = value 
+      else 
+        value = (self.default() || value)
+      
+      if (typeof any.from == "function") 
+        self._value = any.from( value ) 
+      else 
+        self._value = value
       self.process()
       self.afterValue && self.afterValue()
       return self
@@ -152,11 +171,11 @@ validate = (schema, val, callback, context) ->
     return done()
 
   iterate = () ->
-    validator = validators[completed]
-    fn = validator[0]
-    msg = validator[1]
+    __validator = validators[completed]
+    fn = __validator[0]
+    msg = __validator[1]
     async = true
-    stopWhenError = validator[2]
+    stopWhenError = __validator[2]
     #async
     valid = fn.call context || null, val, (ok) ->
       if ( !async ) then return
@@ -184,13 +203,7 @@ validate = (schema, val, callback, context) ->
   return errors()
 
 
-process = (schema, val, context) ->
-  processors = schema.processors
-  len = processors.length
-  val = undefined
-  fn = (processor) -> val = processor.call(context || null, val)
-  fn processor for processor in processors
-  val
+
 
 extend("any")
 
