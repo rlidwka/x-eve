@@ -7,16 +7,16 @@ describe("message", function() {
 	});
 
 	it("should be able to set/get locale", function() {
-		message.locale( "en-US" );
-		equal( message.locale(), "en-US" );
-		message.locale( "zh-CN" );
-		ok( message.dictionary["zh-CN"] );
-		ok( message.dictionary["zh-CN"]["invalid"] );
+		message.message.locale( "en-US" );
+		equal( message.message.locale(), "en-US" );
+		message.message.locale( "zh-CN" );
+		ok( message.message.dictionary["zh-CN"] );
+		ok( message.message.dictionary["zh-CN"]["invalid"] );
 	});
 
 	it("should be able to store message", function() {
-		message.store("test", { "invalid": "invalid" });
-		message.locale("test");
+		message.message.store("test", { "invalid": "invalid" });
+		message.message.locale("test");
 		equal( message("invalid"), "invalid" );
 	});
 
@@ -25,8 +25,8 @@ describe("message", function() {
 	});
 
 	it("should replace options", function() {
-		message.store("test", { "invalid": "invalid {{msg}}" });
-		message.locale("test");
+		message.message.store("test", { "invalid": "invalid {{msg}}" });
+		message.message.locale("test");
 		equal( message("invalid", null, {msg: "test"}), "invalid test" );
 	});
 
