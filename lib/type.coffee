@@ -84,34 +84,17 @@ class staticMethods
   check: () -> true
   from: (val) -> val
 
-class ValFn
-  constructor: (any, name) ->
+
+class StepByStep
+  constructor: (valFn, name) ->
     @type = name #For check if schema
     @_default = null
     @_value = null
     @_required = false
     @_notEmpty = false
-    @any = any
-
-  valFn: (value) ->
-    if( !arguments.length ) then return @._value
-    if validator.exists(value)
-      #value = value 
-    else 
-      value = @default() || value
-    
-    if (typeof @any.from == "function") 
-      @_value = @any.from( value ) 
-    else 
-      @_value = value
-    @process()
-    @afterValue && @afterValue()
-    return @
-
-  value: () -> @valFn arguments
-  val: () -> @valFn arguments
-
-
+    # Set/Get value
+    @value = valFn
+    @val = valFn
 #staticMethods =
 #  check: () -> true
 #  from: (val) -> val
@@ -131,12 +114,37 @@ extend = (name, instance, static) ->
         return @
       else 
         return new arguments.callee( arguments )
+    valFn = (value) ->
+      self = @
+      if( !arguments.length ) then return self._value
+      if validator.exists(value)
+        #value = value 
+      else 
+        value = (self.default() || value)
+      
+      if (typeof any.from == "function") 
+        self._value = any.from( value ) 
+      else 
+        self._value = value
+      self.process()
+      self.afterValue && self.afterValue()
+      return self
     
-    valfn = new ValFn any, name
+    step = new StepByStep valFn, name
+    moduler.mixer any.prototype, step
 
-    moduler.mixer any.prototype, valfn.prototype
+    #moduler.mixer any.prototype, 
+    #  type: name #For check if schema
+    #  _default: null
+    #  _value: null
+    #  _required: false
+    #  _notEmpty: false
+      # Set/Get value
+    #  value: valFn
+    #  val: valFn
     moduler.includer any, instanceMethods
     moduler.extender any, staticMethods
+    #moduler.mixer any, staticMethods
   
   moduler.mixer any.prototype, instance
   static && static.alias && ( _mapper[static.alias] = name ) #map alias -> type
