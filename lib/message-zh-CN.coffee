@@ -1,4 +1,4 @@
-message = require("./message.js")
+message = require("./message.js").message
 message.store "zh-CN",
   invalid: "是无效的"
   required: "必填"
