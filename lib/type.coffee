@@ -20,11 +20,9 @@ process = (schema, val, context) ->
   val
 
 type = module.exports = ( key ) ->
-  #console.log key
-  if( key && key.type && type[key.type] && key instanceof type[key.type] )
+  if( key && key.type && type[key.type] && key instanceof type["_" + key.type] )
     #Check type
     return key
-  
   if _mapper[key]
     key = _mapper[key]
   else 
@@ -171,25 +169,11 @@ validate = (schema, val, callback, context) ->
   iterate()
   return errors()
 
-#type.base = base
-#extend("any")
-
-#type.extend = extend
-
 type.register = (name, klass) ->
-  type[name] = () ->
-    klass.type = name
-    _mapper[klass.alias] = name if klass.alias 
-    return new klass()
-#
-#class type.Any extends type.Base
-#
-
+  klass.type = name
+  _mapper[klass.alias] = name if klass.alias 
+  type[name] = (args) -> return new klass(args)
 
 class type._any extends type.Base
-#  @type = 'any'
-
-#type.any = () ->
-#  return new type._any()
 
 type.register 'any', type._any

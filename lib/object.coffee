@@ -2,12 +2,17 @@ objectPath = (obj, selector) ->
   @obj = obj
   @selector = selector.split(".")
   @
-validator = require("./validator.js")
-type = require("./type.js")
-message = require("./message.js")
-error = require("./error.js")
-type.extend "object",
-  init: (schema) ->
+
+validator = require "./validator"
+type = require "./type"
+message = require "./message"
+error = require "./error"
+
+class type._object extends type.Base
+  constructor: (schema) ->
+    super()
+    self = @
+    ar = self.schema = []
     push = (path, val) ->
       sc = type(val)
       if sc
@@ -15,10 +20,9 @@ type.extend "object",
       else if validator.isArray(val) and type.array
         ar.push [ path, type.array.apply(null, val) ]  if path
       else if validator.isObject(val)
-        for key of val
-          push (if path then (path + "." + key) else key), val[key]
-    self = this
-    ar = self.schema = []
+        for key, v of val
+          push (if path then (path + "." + key) else key), v
+    
     push null, schema
     @
 
@@ -36,10 +40,10 @@ type.extend "object",
       else
         sc[1].value null
       i++
-    this
+    @
 
   validate: (callback) ->
-    self = this
+    self = @
     er1 = undefined
     er2 = @_validate((err) ->
       er1 = self.validateChild(err, false, callback)
@@ -47,6 +51,11 @@ type.extend "object",
     er1 or er2
 
   validateChild: (err, ignoreUndefined, callback) ->
+    ob = @_value
+    completed = 0
+    schema = @schema
+    _errors = err or new error()
+    len = schema.length
     iterate = ->
       sc = schema[completed]
       path = new objectPath(ob, sc[0])
@@ -67,22 +76,16 @@ type.extend "object",
       e = errors()
       callback and callback(e)
       e
-    ob = @_value
-    completed = 0
-    schema = @schema
-    _errors = err or new error()
-    len = schema.length
     iterate()
     return errors()
-,
-  alias: Object
-  check: (obj) ->
-    validator.isObject obj
 
-  from: (obj) ->
+  @alias = Object
+  @check = (obj) -> validator.isObject obj
+
+  @from = (obj) ->
     (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
 
-  path: objectPath
+  @path = objectPath
 
 hasOwnProperty = Object::hasOwnProperty
 objectPath::exists = ->
@@ -126,3 +129,5 @@ objectPath::set = (value) ->
       val[key] = {}  unless val[key]
       val = val[key]
     i++
+
+type.register 'object', type._object

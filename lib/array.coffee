@@ -4,11 +4,11 @@ message = require("./message.js")
 
 class type._array extends type.Base
   constructor: (schema) ->
-    sc = type(schema)
-    sc = type.object(schema)  if not sc and validator.isObject(schema) and type.object
-    @schema = sc
     super()
-
+    sc = type(schema)
+    sc = type.object(schema) if not sc and validator.isObject(schema) and type.object
+    @schema = sc
+    
   len: (minOrLen, max, msg) ->
     last = arguments[arguments.length - 1]
     msg = (if typeof last is "number" then null else last)
@@ -20,7 +20,7 @@ class type._array extends type.Base
     ) else message("len", msg,
       len: minOrLen
     ))
-    this
+    @
 
   afterValue: ->
     ob = @_value
@@ -28,14 +28,13 @@ class type._array extends type.Base
     len = ob and ob.length
     if schema and len
       i = 0
-
       while i < len
         ob[i] = schema.val(ob[i]).val()
         i++
-    this
+    @
 
   validate: (callback) ->
-    self = this
+    self = @
     er1 = undefined
     er2 = @_validate((err) ->
       er1 = self.schema and self._value and self._value.length and self.validateChild(err, callback) or null
@@ -81,4 +80,3 @@ class type._array extends type.Base
     null
 
 type.register 'array', type._array
-
