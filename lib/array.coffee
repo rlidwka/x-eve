@@ -1,11 +1,13 @@
 validator = require("./validator.js")
 type = require("./type.js")
 message = require("./message.js")
-type.extend "array",
-  init: (schema) ->
+
+class type._array extends type.Base
+  constructor: (schema) ->
     sc = type(schema)
     sc = type.object(schema)  if not sc and validator.isObject(schema) and type.object
     @schema = sc
+    super()
 
   len: (minOrLen, max, msg) ->
     last = arguments[arguments.length - 1]
@@ -65,12 +67,11 @@ type.extend "array",
     len = ob.length
     iterate()
     return errors()
-,
-  alias: Array
-  check: (obj) ->
-    validator.isArray obj
 
-  from: (obj) ->
+  @alias = Array
+  @check = (obj) -> validator.isArray obj
+
+  @from = (obj) ->
     if validator.exists(obj)
       if validator.isArray(obj)
         return obj
@@ -78,3 +79,6 @@ type.extend "array",
     else
       return obj
     null
+
+type.register 'array', type._array
+

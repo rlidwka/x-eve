@@ -4,16 +4,14 @@
 # date from number,date,string
 
 
-validator = require "./validator.js"
-type = require "./type.js"
-message = require "./message.js"
+validator = require "./validator"
+type = require "./type"
+message = require "./message"
 
-type.extend "date", {
-}, 
-	alias: Date
-	check: (obj) -> validator.isDate obj
-
-	from: (obj) ->
+class type._date extends type.Base
+	@alias = Date
+	@check = (obj) -> validator.isDate obj
+	@from = (obj) ->
 		return obj if obj instanceof Date
 			
 		if 'string' == typeof obj
@@ -32,5 +30,4 @@ type.extend "date", {
 		
 		if obj then null else obj
 
-
-
+type.register 'date', type._date
