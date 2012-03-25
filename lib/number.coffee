@@ -5,7 +5,7 @@ validator = require "./validator.js"
 type = require "./type.js"
 message = require "./message.js"
 
-numberInstance =
+class type._number extends type.Base
 	min: (val, msg) ->
 		@validator ( num ) ->
 			num >= val
@@ -24,18 +24,23 @@ numberInstance =
 		, message("enum", msg, items: items.join ",")
 		@
 
-type.extend "number", numberInstance,
-	alias: Number
-	check: ( obj ) -> validator.isNumber obj
+	@alias: Number
+	@check: ( obj ) -> validator.isNumber obj
 	
-	from: ( obj ) ->
+	@from: ( obj ) ->
 		obj = parseFloat( obj )
 		if obj then obj else ( if obj == 0 then 0 else null )
-	
-type.extend "integer", numberInstance,
-	check: ( obj ) ->
+
+type.register 'number', type._number
+
+class type._integer extends type._number
+	@check: ( obj ) ->
 		validator.isNumber( obj ) && validator.mod( obj )
 	
-	from: ( obj ) ->
+	@from: ( obj ) ->
 		obj = parseInt obj, 10
 		if obj then obj else ( if obj == 0 then 0 else null )
+
+
+type.register 'integer', type._integer
+	
