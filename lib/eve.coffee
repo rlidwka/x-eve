@@ -4,6 +4,30 @@
 #
 # Copyright (c) 2011 Hidden
 # Released under the MIT, BSD, and GPL Licenses.
+Function::include = (argv...) ->
+  for cl in argv
+    for key, value of cl::
+      @::[key]=value
+  @
+
+Function::extend_it = (argv...) ->
+  for cl in argv
+    for key, value of cl::
+      @[key]=value
+  @
+
+Function::includer = (obj, argv...) ->
+  for cl in argv
+    for key, value of cl::
+      obj::[key]=value
+  obj
+
+Function::extender = (obj, argv...) ->
+  for cl in argv
+    for key, value of cl::
+      obj[key]=value
+  obj
+
 
 eve = exports
 validator = require "./validator"

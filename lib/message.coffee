@@ -39,7 +39,7 @@ class Message
 	store: (locale, data) ->
 		@dictionary[locale] = {} if typeof @dictionary[locale] != "object"
 		if data && typeof data == "object"
-			@dictionary[locale][key] = data[key] for key, val of data
+			@dictionary[locale][key] = val for key, val of data
 
 fn = (key, msg, args) -> fn.message.msg key, msg, args
 fn.message = new Message()
