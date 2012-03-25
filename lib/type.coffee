@@ -20,6 +20,7 @@ process = (schema, val, context) ->
   val
 
 type = module.exports = ( key ) ->
+  #console.log key
   if( key && key.type && type[key.type] && key instanceof type[key.type] )
     #Check type
     return key
@@ -28,11 +29,20 @@ type = module.exports = ( key ) ->
     key = _mapper[key]
   else 
     key = null
-
+  
   return key && type[ key ] && type[ key ]() || null
 
-class instanceMethods
-  init: () -> @
+class type.Base
+  constructor: () ->
+    @_default = null
+    @_value = null
+    @_required = false
+    @_notEmpty = false
+    @validators = []
+    @processors = []
+    @type = @constructor.type
+    @value = @valFn
+    @val = @valFn
   
   required: ( msg ) ->
     @_required = message("required", msg)
@@ -80,66 +90,22 @@ class instanceMethods
 
   exists: -> @required
 
-class staticMethods
-  check: () -> true
-  from: (val) -> val
+  valFn: (value) ->
+    if( !arguments.length ) then return @_value
+    if validator.exists(value)
+      #value = value 
+    else 
+      value = (@default() || value)
+    if (typeof @constructor.from == "function") 
+      @_value = @constructor.from( value )       
+    else 
+      @_value = value
+    @process()
+    @afterValue && @afterValue()
+    return @
 
-class Any
-  @create: (name) ->
-    any = type[name]
-    if( !any ) 
-      step = new Any name
-      any = type[name] = step.any
-      moduler.mixer any.prototype, step
-      moduler.includer any, instanceMethods
-      moduler.extender any, staticMethods
-    return any
-
-  @any = () ->
-    ( args ) ->
-      # Return an instance when call any()
-      # http://ejohn.org/blog/simple-class-instantiation/
-      if ( @ instanceof arguments.callee ) 
-        @validators = []
-        @processors = []
-        if ( typeof @init == "function" )
-          @init.apply( @, if args.callee then args else arguments )
-        return @
-      else 
-        return new arguments.callee( arguments )
-
-  @valFn = (any) -> 
-    (value) ->
-      if( !arguments.length ) then return @_value
-      if validator.exists(value)
-        #value = value 
-      else 
-        value = (@default() || value)
-      if (typeof any.from == "function") 
-        @_value = any.from( value ) 
-      else 
-        @_value = value
-      @process()
-      @afterValue && @afterValue()
-      return @
-
-  constructor: (name) ->
-    @type = name #For check if schema
-    @_default = null
-    @_value = null
-    @_required = false
-    @_notEmpty = false
-    @any = Any.any()
-    valFn = Any.valFn @any
-    @val = @value = valFn
-
-extend = (name, instance, static) ->
-  if( !name ) then return
-  any = Any.create name
-  moduler.mixer any.prototype, instance
-  static && static.alias && ( _mapper[static.alias] = name ) #map alias -> type
-  moduler.mixer any, static
-
+  @check = () -> true
+  @from = (val) -> val
 
 validate = (schema, val, callback, context) ->
   validators = schema.validators
@@ -205,9 +171,25 @@ validate = (schema, val, callback, context) ->
   iterate()
   return errors()
 
+#type.base = base
+#extend("any")
+
+#type.extend = extend
+
+type.register = (name, klass) ->
+  type[name] = () ->
+    klass.type = name
+    _mapper[klass.alias] = name if klass.alias 
+    return new klass()
+#
+#class type.Any extends type.Base
+#
 
 
+class type._any extends type.Base
+#  @type = 'any'
 
-extend("any")
+#type.any = () ->
+#  return new type._any()
 
-type.extend = extend
+type.register 'any', type._any

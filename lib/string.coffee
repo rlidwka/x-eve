@@ -9,7 +9,8 @@ _trim = String.prototype.trim
 
 trim = (val) -> val && if _trim then _trim.call val else val.replace _trimRe, ""
 
-type.extend "string",
+class type._string extends type.Base
+
 	len: ( minOrLen, max, msg ) ->
 		last = arguments[ arguments.length - 1 ]
 		msg = if typeof last == "number" then null else last
@@ -48,7 +49,9 @@ type.extend "string",
 	trim: () -> 
 		@processors.push (str) -> if str then trim str else str
 		@
-, 
-	alias: String
-	check: (obj) -> validator.isString obj
-	from: (obj) -> if obj then String obj else obj
+
+	@alias = String
+	@check = (obj) -> validator.isString obj
+	@from = (obj) -> if obj then String obj else obj
+
+type.register 'string', type._string
