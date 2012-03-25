@@ -79,8 +79,8 @@ describe("type", function() {
 		});
 
 		it("should enable map Object to type", function() {
-			ok( type( String ) instanceof type.string );
-			ok( type( type.string() ) instanceof type.string );
+			ok( type( String ) instanceof type._string );
+			ok( type( type.string() ) instanceof type._string );
 			ok( !type("not a type") );
 		});
 
