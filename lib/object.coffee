@@ -75,11 +75,10 @@ class type._object extends type.Base
     iterate()
     return errors()
 
-  @alias = Object
-  @check = (obj) -> validator.isObject obj
-
-  @from = (obj) -> (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
-  @path = objectPath
+  @alias: Object
+  @check: (obj) -> validator.isObject obj
+  @from: (obj) -> (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
+  @path: objectPath
 
 hasOwnProperty = Object::hasOwnProperty
 objectPath::exists = ->

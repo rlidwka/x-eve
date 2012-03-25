@@ -66,10 +66,9 @@ class type._array extends type.Base
     iterate()
     return errors()
 
-  @alias = Array
-  @check = (obj) -> validator.isArray obj
-
-  @from = (obj) ->
+  @alias: Array
+  @check: (obj) -> validator.isArray obj
+  @from: (obj) ->
     if validator.exists(obj)
       if validator.isArray(obj)
         return obj

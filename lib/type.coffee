@@ -94,8 +94,8 @@ class type.Base
     @afterValue && @afterValue()
     return @
 
-  @check = () -> true
-  @from = (val) -> val
+  @check: () -> true
+  @from: (val) -> val
 
 validate = (schema, val, callback, context) ->
   validators = schema.validators

@@ -23,19 +23,18 @@ class type._number extends type.Base
 		, message("enum", msg, items: items.join ",")
 		@
 
-	@alias = Number
-	@check = ( obj ) -> validator.isNumber obj
-	
-	@from = ( obj ) ->
+	@alias: Number
+	@check: ( obj ) -> validator.isNumber obj
+	@from: ( obj ) ->
 		obj = parseFloat( obj )
 		if obj then obj else ( if obj == 0 then 0 else null )
 
 type.register 'number', type._number
 
 class type._integer extends type._number
-	@check = ( obj ) -> validator.isNumber( obj ) && validator.mod( obj )
+	@check: ( obj ) -> validator.isNumber( obj ) && validator.mod( obj )
 	
-	@from = ( obj ) ->
+	@from: ( obj ) ->
 		obj = parseInt obj, 10
 		if obj then obj else ( if obj == 0 then 0 else null )
 

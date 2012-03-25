@@ -50,8 +50,8 @@ class type._string extends type.Base
 		@processors.push (str) -> if str then trim str else str
 		@
 
-	@alias = String
-	@check = (obj) -> validator.isString obj
-	@from = (obj) -> if obj then String obj else obj
+	@alias: String
+	@check: (obj) -> validator.isString obj
+	@from: (obj) -> if obj then String obj else obj
 
 type.register 'string', type._string

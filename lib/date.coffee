@@ -7,9 +7,9 @@ type = require "./type"
 message = require "./message"
 
 class type._date extends type.Base
-	@alias = Date
-	@check = (obj) -> validator.isDate obj
-	@from = (obj) ->
+	@alias: Date
+	@check: (obj) -> validator.isDate obj
+	@from: (obj) ->
 		return obj if obj instanceof Date
 			
 		if 'string' == typeof obj
