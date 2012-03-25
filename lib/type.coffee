@@ -84,25 +84,19 @@ class staticMethods
   check: () -> true
   from: (val) -> val
 
-
 class Any
   @create: (name) ->
-    _any = type[name]
-    if( !_any ) 
+    any = type[name]
+    if( !any ) 
       step = new Any name
-      _any = type[name] = step.any()
-      moduler.mixer _any.prototype, step
-      moduler.includer _any, instanceMethods
-      moduler.extender _any, staticMethods
-    return _any
+      any = type[name] = step.any
+      moduler.mixer any.prototype, step
+      moduler.includer any, instanceMethods
+      moduler.extender any, staticMethods
+    return any
 
-  constructor: (name) ->
-    @type = name #For check if schema
-    @_default = null
-    @_value = null
-    @_required = false
-    @_notEmpty = false
-    __any = ( args ) ->
+  @any = () ->
+    ( args ) ->
       # Return an instance when call any()
       # http://ejohn.org/blog/simple-class-instantiation/
       if ( @ instanceof arguments.callee ) 
@@ -113,25 +107,31 @@ class Any
         return @
       else 
         return new arguments.callee( arguments )
-    @any = () -> __any
-      # Set/Get value
-    @valFn = (value) ->
+
+  @valFn = (any) -> 
+    (value) ->
       if( !arguments.length ) then return @_value
       if validator.exists(value)
         #value = value 
       else 
         value = (@default() || value)
-      if (typeof __any.from == "function") 
-        @_value = __any.from( value ) 
+      if (typeof any.from == "function") 
+        @_value = any.from( value ) 
       else 
         @_value = value
       @process()
       @afterValue && @afterValue()
       return @
-    @val = @valFn
-    @value = @valFn
-  #val: -> @valFn.apply {}, arguments 
-  #value: -> @valFn.apply {}, arguments 
+
+  constructor: (name) ->
+    @type = name #For check if schema
+    @_default = null
+    @_value = null
+    @_required = false
+    @_notEmpty = false
+    @any = Any.any()
+    valFn = Any.valFn @any
+    @val = @value = valFn
 
 extend = (name, instance, static) ->
   if( !name ) then return
