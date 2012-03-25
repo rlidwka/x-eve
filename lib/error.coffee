@@ -25,7 +25,7 @@ class error extends Error
 			@ok = er.ok if !@ok
 			@_chlidrens[ key ] = er
 			@message = @concat @message, er.message
-	
+
 	at: on
 
 	messages: ( withoutName ) ->

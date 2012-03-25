@@ -1,17 +1,17 @@
-validator = require("./validator.js")
-type = require("./type.js")
-message = require("./message.js")
+validator = require "./validator"
+type = require "./type"
+message = require "./message"
 
 class type._array extends type.Base
   constructor: (schema) ->
     super()
-    sc = type(schema)
+    sc = type schema
     sc = type.object(schema) if not sc and validator.isObject(schema) and type.object
     @schema = sc
     
   len: (minOrLen, max, msg) ->
     last = arguments[arguments.length - 1]
-    msg = (if typeof last is "number" then null else last)
+    msg = if typeof last is "number" then null else last
     @validator ((ar) ->
       validator.len ar, minOrLen, max
     ), (if (typeof max is "number") then message("len_in", msg,
@@ -53,8 +53,7 @@ class type._array extends type.Base
         done()
       else
         iterate()
-    errors = ->
-      _errors.ok and _errors or null
+    errors = -> _errors.ok and _errors or null
     done = ->
       e = errors()
       callback and callback(e)

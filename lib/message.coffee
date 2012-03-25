@@ -33,7 +33,6 @@ class Message
 		try
 			require path
 		catch e
-			#console.log("Not found: " + path)
 		@_locale = name
 
 	store: (locale, data) ->

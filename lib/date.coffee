@@ -1,8 +1,6 @@
-
 # date type.
 #
 # date from number,date,string
-
 
 validator = require "./validator"
 type = require "./type"

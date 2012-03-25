@@ -1,9 +1,9 @@
 # string type.
 
 
-validator = require "./validator.js"
-type = require "./type.js"
-message = require "./message.js"
+validator = require "./validator"
+type = require "./type"
+message = require "./message"
 _trimRe = /^\s+|\s+$/g
 _trim = String.prototype.trim
 
@@ -14,28 +14,28 @@ class type._string extends type.Base
 	len: ( minOrLen, max, msg ) ->
 		last = arguments[ arguments.length - 1 ]
 		msg = if typeof last == "number" then null else last
-		@validator (( str ) -> validator.len str, minOrLen, max),
+		@validator(( str ) -> validator.len str, minOrLen, max),
 			if (typeof max == "number" ) 
 			then message("len_in", msg, min: minOrLen, max: max)
 			else message("len", msg, len: minOrLen)
 		@
 
 	match: ( re, msg ) ->
-		@validator	( ( str ) -> if str && str.match re then true else false ), 
+		@validator( ( str ) -> if str && str.match re then true else false ), 
 			message("match", msg, expression: "" + re)
 		@
 		
 	enum: (items, msg) ->
-		@validator	( ( str ) -> validator.contains items, str ),
+		@validator( ( str ) -> validator.contains items, str ),
 			message("enum", msg, items: items.join ",")
 		@
 	
 	email: ( msg ) ->
-		@validator ( ( str ) -> if str && validator.isEmail(str) then true else false ), message("email", msg)
+		@validator( ( str ) -> if str && validator.isEmail(str) then true else false ), message("email", msg)
 		@
 	
 	url: ( msg ) ->
-		@validator ( ( str ) -> if str && validator.isUrl(str) then true else false ), message("url", msg)
+		@validator( ( str ) -> if str && validator.isUrl(str) then true else false ), message("url", msg)
 		@
 	
 	lowercase: () -> 

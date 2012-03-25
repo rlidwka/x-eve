@@ -1,6 +1,6 @@
 objectPath = (obj, selector) ->
   @obj = obj
-  @selector = selector.split(".")
+  @selector = selector.split "."
   @
 
 validator = require "./validator"
@@ -24,7 +24,6 @@ class type._object extends type.Base
           push (if path then (path + "." + key) else key), v
     
     push null, schema
-    @
 
   afterValue: ->
     ob = @_value
@@ -45,9 +44,7 @@ class type._object extends type.Base
   validate: (callback) ->
     self = @
     er1 = undefined
-    er2 = @_validate((err) ->
-      er1 = self.validateChild(err, false, callback)
-    )
+    er2 = @_validate (err) -> er1 = self.validateChild(err, false, callback)
     er1 or er2
 
   validateChild: (err, ignoreUndefined, callback) ->
@@ -70,8 +67,7 @@ class type._object extends type.Base
         done()
       else
         iterate()
-    errors = ->
-      _errors.ok and _errors or null
+    errors = -> _errors.ok and _errors or null
     done = ->
       e = errors()
       callback and callback(e)
@@ -82,9 +78,7 @@ class type._object extends type.Base
   @alias = Object
   @check = (obj) -> validator.isObject obj
 
-  @from = (obj) ->
-    (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
-
+  @from = (obj) -> (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
   @path = objectPath
 
 hasOwnProperty = Object::hasOwnProperty

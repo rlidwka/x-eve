@@ -1,15 +1,14 @@
 # any type
 # required,notEmpty,default,validator,processor
 
-validator = require("./validator.js")
-message = require("./message.js")
-error = require("./error.js")
+validator = require "./validator"
+message = require "./message"
+error = require "./error"
 moduler = require './moduler'
 
 # map key -> type 
 #  type( Date ) => type.date()
 #
-
 _mapper = {} 
 
 process = (schema, val, context) ->
@@ -20,7 +19,7 @@ process = (schema, val, context) ->
   val
 
 type = module.exports = ( key ) ->
-  if( key && key.type && type[key.type] && key instanceof type["_" + key.type] )
+  if key && key.type && type[key.type] && key instanceof type["_" + key.type]
     #Check type
     return key
   if _mapper[key]
@@ -61,7 +60,6 @@ class type.Base
   alias: ( value ) ->
     if( !arguments.length ) 
       return if (typeof @_alias == 'function') then @_alias() else @_alias
-    
     @_alias = value
     return @
   
@@ -77,19 +75,13 @@ class type.Base
     @processors.push(fn)
     return @
   
-  _validate: ( callback ) ->
-    return validate( @, @_value, callback, @_context )
-  
-  validate: ( callback ) ->
-    return @_validate( callback )
-  
-  process: () ->
-    @_value = process(@, @_value)
-
+  _validate: ( callback ) -> validate @, @_value, callback, @_context
+  validate: ( callback ) -> @_validate callback
+  process: () -> @_value = process @, @_value
   exists: -> @required
 
   valFn: (value) ->
-    if( !arguments.length ) then return @_value
+    return @_value if !arguments.length
     if validator.exists(value)
       #value = value 
     else 
@@ -109,15 +101,12 @@ validate = (schema, val, callback, context) ->
   validators = schema.validators
   len = validators.length
   required = schema._required
-  notExists = !validator.exists(val)
+  notExists = !validator.exists val
   notEmpty = schema._notEmpty
   completed = 0
   _errors = new error()
-
   _errors.alias schema.alias()
-
   errors = () -> _errors.ok && _errors || null
-
   done = () ->
     e = errors()
     validator.isFunction( callback ) && callback(e)

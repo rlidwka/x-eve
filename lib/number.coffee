@@ -1,9 +1,8 @@
-
 # number and integer type.
 
-validator = require "./validator.js"
-type = require "./type.js"
-message = require "./message.js"
+validator = require "./validator"
+type = require "./type"
+message = require "./message"
 
 class type._number extends type.Base
 	min: (val, msg) ->
@@ -34,8 +33,7 @@ class type._number extends type.Base
 type.register 'number', type._number
 
 class type._integer extends type._number
-	@check = ( obj ) ->
-		validator.isNumber( obj ) && validator.mod( obj )
+	@check = ( obj ) -> validator.isNumber( obj ) && validator.mod( obj )
 	
 	@from = ( obj ) ->
 		obj = parseInt obj, 10
