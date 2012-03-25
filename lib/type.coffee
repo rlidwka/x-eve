@@ -85,25 +85,24 @@ class staticMethods
   from: (val) -> val
 
 
-class StepByStep
-  constructor: (valFn, name) ->
+class Any
+  @create: (name) ->
+    _any = type[name]
+    if( !_any ) 
+      step = new Any name
+      _any = type[name] = step.any()
+      moduler.mixer _any.prototype, step
+      moduler.includer _any, instanceMethods
+      moduler.extender _any, staticMethods
+    return _any
+
+  constructor: (name) ->
     @type = name #For check if schema
     @_default = null
     @_value = null
     @_required = false
     @_notEmpty = false
-    # Set/Get value
-    @value = valFn
-    @val = valFn
-#staticMethods =
-#  check: () -> true
-#  from: (val) -> val
-
-extend = (name, instance, static) ->
-  if( !name ) then return
-  any = type[name]
-  if( !any ) 
-    any = type[name] = ( args ) ->
+    __any = ( args ) ->
       # Return an instance when call any()
       # http://ejohn.org/blog/simple-class-instantiation/
       if ( @ instanceof arguments.callee ) 
@@ -114,38 +113,29 @@ extend = (name, instance, static) ->
         return @
       else 
         return new arguments.callee( arguments )
-    valFn = (value) ->
-      self = @
-      if( !arguments.length ) then return self._value
+    @any = () -> __any
+      # Set/Get value
+    @valFn = (value) ->
+      if( !arguments.length ) then return @_value
       if validator.exists(value)
         #value = value 
       else 
-        value = (self.default() || value)
-      
-      if (typeof any.from == "function") 
-        self._value = any.from( value ) 
+        value = (@default() || value)
+      if (typeof __any.from == "function") 
+        @_value = __any.from( value ) 
       else 
-        self._value = value
-      self.process()
-      self.afterValue && self.afterValue()
-      return self
-    
-    step = new StepByStep valFn, name
-    moduler.mixer any.prototype, step
+        @_value = value
+      @process()
+      @afterValue && @afterValue()
+      return @
+    @val = @valFn
+    @value = @valFn
+  #val: -> @valFn.apply {}, arguments 
+  #value: -> @valFn.apply {}, arguments 
 
-    #moduler.mixer any.prototype, 
-    #  type: name #For check if schema
-    #  _default: null
-    #  _value: null
-    #  _required: false
-    #  _notEmpty: false
-      # Set/Get value
-    #  value: valFn
-    #  val: valFn
-    moduler.includer any, instanceMethods
-    moduler.extender any, staticMethods
-    #moduler.mixer any, staticMethods
-  
+extend = (name, instance, static) ->
+  if( !name ) then return
+  any = Any.create name
   moduler.mixer any.prototype, instance
   static && static.alias && ( _mapper[static.alias] = name ) #map alias -> type
   moduler.mixer any, static
