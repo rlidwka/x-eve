@@ -8,7 +8,7 @@ class error extends Error
 		@name = 'EveError'
 		@_messages = []
 		@_hasChildren = false
-		@_chlidrens = {}
+		@_childrens = {}
 
 	toString: () -> @name + ': ' + @message
 	alias: (name) -> @_alias = name
@@ -19,11 +19,11 @@ class error extends Error
 
 	on: ( key, er ) ->
 		l = arguments.length
-		return @_chlidrens[ key ] || null if l == 1
+		return @_childrens[ key ] || null if l == 1
 		if er instanceof error
 			@_hasChildren = true
 			@ok = er.ok if !@ok
-			@_chlidrens[ key ] = er
+			@_childrens[ key ] = er
 			@message = @concat @message, er.message
 
 	at: on
@@ -34,7 +34,7 @@ class error extends Error
 		name = if name then name + " " else ""
 		messages.push( name + msg ) for msg in @_messages
 		if ( @_hasChildren )
-			@merge messages, val.messages(withoutName) for key, val of @_chlidrens
+			@merge messages, val.messages(withoutName) for key, val of @_childrens
 		if messages.length then messages else null
 
 	concat: (s1, s2) -> if s1 && s2 then s1 + "\n" + s2 else s1 || s2
