@@ -1,3 +1,4 @@
+error = require "./error"
 validator = require "./validator"
 type = require "./type"
 message = require "./message"
