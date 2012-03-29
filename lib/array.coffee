@@ -46,7 +46,7 @@ class type._array extends type.Base
   validate: (callback) ->
     self = @
     er1 = undefined
-    if (@_value == null || @_value == undefined)
+    if (@_value == null || @_value == undefined || @_value.length == 0)
       er2 = @_validate (err) -> 
         callback(err) if callback
     else

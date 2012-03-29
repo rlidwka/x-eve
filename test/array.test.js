@@ -41,6 +41,17 @@ describe("type", function() {
 			equal( errs.messages().length, 1 );
 		});
 
+		it("should raise if empty", function() {
+			var schema = type.object( { test: type.array( type.number().required() ).notEmpty() } ).required();
+
+			var errs = schema.val( { test: [] }).validate( function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+			} );
+			ok( errs );
+			equal( errs.messages().length, 1 );
+		});
+
 		it("should validate inner object", function() {
 			var schema = type.array( type.object({ login: type.string().required() })).val([{"nologin": true}, {"login": true}, {"nologin": true}]);
 			var errs = schema.validate( function(errs) {
