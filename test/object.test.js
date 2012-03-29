@@ -106,6 +106,34 @@ describe("type", function() {
 			//ok ( !errs );
 		});
 
+		it("should be able to validate required attribute", function(done) {
+			var schema = type.object({
+				login: type.string().required()
+			});
+			schema.val({nologin: "t"});
+			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+				done();
+			});
+			ok( errs );
+		});
+
+		it("should be able be required itself", function() {
+			var schema = type.object({
+				login: type.object( { user: type.string().required() } ).required()
+			});
+			schema.val({nologin: "t"});
+			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 2 );
+			});
+			ok( errs );
+			schema.val({login: { user: "test" }});			
+			errs = schema.validate();
+			ok( !errs );
+		});
+
 		it("should support context in coustom validator", function() {
 			var schema = type.object({ 
 				login: type.string().validator(function(val) {

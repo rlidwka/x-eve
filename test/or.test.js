@@ -40,6 +40,36 @@ describe("type", function() {
 			ok( !sc.validate() );
 		});
 
+		it("should be able be required itself", function() {
+			var schema = type.object({
+				login: type.or([
+									type.string().lowercase().notEmpty().len(3,12),
+									type.string().trim().notEmpty().email()
+								]).required()
+			});
+			schema.val({nologin: "t"});
+			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 3 );
+			});
+			ok( errs );
+			schema.val({login: "test"});			
+			errs = schema.validate();
+			ok( !errs );
+		});
+
+		it("should validate if not required", function() {
+			var schema = type.object({
+				login: type.or([
+									type.string().lowercase().notEmpty().len(3,12),
+									type.string().trim().notEmpty().email()
+								])
+			});
+			schema.val({nologin: "t"});
+			var errs = schema.validate();
+			ok( !errs );
+		});
+
 
 		it("should be able to validate if both fails", function(done) {
 			schema.val("");
