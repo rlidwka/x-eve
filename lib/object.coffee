@@ -27,7 +27,10 @@ class type._object extends type.Base
     push null, schema
 
   clone: ->
-    obj = new @constructor(@original_schema.clone())
+    new_schema = {}
+    for k,v of @original_schema
+      new_schema[k] = v.clone()
+    obj = new @constructor(new_schema.clone())
     for key, val of @
       if @hasOwnProperty[key] && key != '_value' && key != 'schema'
         obj[key] = val
