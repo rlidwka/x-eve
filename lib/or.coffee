@@ -22,8 +22,9 @@ class type._or extends type.Base
   validate: (callback) ->
     self = @
     er1 = undefined
-    if (@_value == null || @_value == undefined) && !@_required
-      return er1
+    if (@_value == null || @_value == undefined) #&& !@_required
+      er2 = @_validate (err) -> 
+        callback(err) if callback
     else
       er2 = @_validate (err) -> er1 = self.validateChild(err, callback)
     er1 or er2

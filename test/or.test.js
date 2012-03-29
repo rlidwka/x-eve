@@ -50,7 +50,7 @@ describe("type", function() {
 			schema.val({nologin: "t"});
 			var errs = schema.validate(function(errs) {
 				ok( errs );
-				equal( errs.messages().length, 3 );
+				equal( errs.messages().length, 1 );
 			});
 			ok( errs );
 			schema.val({login: "test"});			
