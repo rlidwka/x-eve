@@ -53,6 +53,36 @@ describe("type", function() {
 			});
 		});
 
+		it("should validate objects", function() {
+			var schema = type.or([
+					type.object({
+						login: type.string().trim().lowercase().notEmpty().len(3,12)
+						, email: type.string().trim().notEmpty().email()
+					})
+			]);
+
+			var val = schema.val({login: " Test ", email: "t@g.com"}).val();
+			equal(val.login, "test");
+			ok( !schema.validate() );
+		});
+
+		it("should validate invalid objects", function(done) {
+			var schema = type.or([
+					type.object({
+						login: type.string().trim().lowercase().notEmpty().len(3,12)
+						, email: type.string().trim().notEmpty().email()
+					})
+			]);
+			schema.val({login: "t", email: "g.com"});
+			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 2 );
+				done();
+			});
+			ok( errs );
+		});
+
+
 		it("should be able to validate async", function(done) {
 			var schema = type.or([
 				type.string().validator(function(val, next) {

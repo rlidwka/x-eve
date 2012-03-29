@@ -41,6 +41,14 @@ class type.Base
     @value = @valFn
     @val = @valFn
   
+  clone: ->
+    obj = new @constructor()
+    for key, val of @
+      if @hasOwnProperty[key] && key != '_value'
+        obj[key] = val
+    return obj
+
+
   required: ( msg ) ->
     @_required = message("required", msg)
     return @

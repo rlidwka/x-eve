@@ -50,6 +50,34 @@ describe("type", function() {
 			});
 		});
 
+		it("should validate an object within an invalid object", function(done) {
+			var schema = type.object({
+				test: type.object({
+					login: type.string().trim().lowercase().notEmpty().len(3,12)
+					, email: type.string().trim().notEmpty().email()
+				})
+			});
+			schema.val( { test: {login: "admin", email: "tg.com"} } ).validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+				done();
+			});
+		});
+
+		it("should validate an object within a valid object", function(done) {
+			var schema = type.object({
+				test: type.object({
+					login: type.string().trim().lowercase().notEmpty().len(3,12)
+					, email: type.string().trim().notEmpty().email()
+				})
+			});
+			schema.val( { test: {login: "admin", email: "t@g.com"} } ).validate(function(errs) {
+				ok( !errs );
+				done();
+			});
+		});
+
+
 		it("should be able to ignore undefined attribute", function() {
 			//schema.val({login: "test"});
 			//var errs = schema.validate();
