@@ -30,6 +30,17 @@ describe("type", function() {
 			equal( errs.messages().length, 2 );
 		});
 
+		it("should validate required if required and embedded in object", function() {
+			var schema = type.object( { test: type.array( type.number().required() ).required() } ).required();
+
+			var errs = schema.val( { test2: ["a"] }).validate( function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+			} );
+			ok( errs );
+			equal( errs.messages().length, 1 );
+		});
+
 		it("should validate inner object", function() {
 			var schema = type.array( type.object({ login: type.string().required() })).val([{"nologin": true}, {"login": true}, {"nologin": true}]);
 			var errs = schema.validate( function(errs) {
