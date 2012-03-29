@@ -1,4 +1,4 @@
-# number and integer type.
+# bool type.
 
 validator = require "./validator"
 type = require "./type"
