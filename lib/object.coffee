@@ -32,7 +32,7 @@ class type._object extends type.Base
       new_schema[k] = v.clone()
     obj = new @constructor new_schema
     for key, val of @
-      if @hasOwnProperty[key] && key != '_value' && key != 'schema'
+      if @hasOwnProperty(key) && key != '_value' && key != 'schema'
         obj[key] = val
     return obj
 

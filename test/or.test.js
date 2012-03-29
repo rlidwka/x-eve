@@ -20,10 +20,24 @@ describe("type", function() {
 			ok( !schema.validate() );
 		});
 
+		it("should process value a for clones ", function() {
+			var sc = schema.clone();
+			var val = sc.val("Test").val();
+			equal(val, "test");
+			ok( !sc.validate() );
+		});
+
 		it("should process value b", function() {
 			var val = schema.val("Ddddddddddddddddddddddddt@g.com ").val();
 			equal(val, "Ddddddddddddddddddddddddt@g.com");
 			ok( !schema.validate() );
+		});
+
+		it("should process value b for clone", function() {
+			var sc = schema.clone();
+			var val = sc.val("Ddddddddddddddddddddddddt@g.com ").val();
+			equal(val, "Ddddddddddddddddddddddddt@g.com");
+			ok( !sc.validate() );
 		});
 
 
@@ -73,6 +87,22 @@ describe("type", function() {
 						, email: type.string().trim().notEmpty().email()
 					})
 			]);
+			schema.val({login: "t", email: "g.com"});
+			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 2 );
+				done();
+			});
+			ok( errs );
+		});
+
+		it("should validate invalid objects for clones", function(done) {
+			var schema = type.or([
+					type.object({
+						login: type.string().trim().lowercase().notEmpty().len(3,12)
+						, email: type.string().trim().notEmpty().email()
+					})
+			]).clone();
 			schema.val({login: "t", email: "g.com"});
 			var errs = schema.validate(function(errs) {
 				ok( errs );

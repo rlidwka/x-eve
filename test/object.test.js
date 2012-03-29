@@ -20,6 +20,13 @@ describe("type", function() {
 			ok( !schema.validate() );
 		});
 
+		it("should process value of clone", function() {
+			var sc = schema.clone();
+			var val = sc.val({login: " Test ", email: "t@g.com"}).val();
+			equal(val.login, "test");
+			ok( !sc.validate() );
+		});
+
 		it("should be able to validate", function(done) {
 			schema.val({login: "t", email: "g.com"});
 			var errs = schema.validate(function(errs) {
@@ -29,6 +36,18 @@ describe("type", function() {
 			});
 			ok( errs );
 		});
+
+		it("should be able to validate clone", function(done) {
+			var sc = schema.clone();
+			sc.val({login: "t", email: "g.com"});
+			var errs = sc.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 2 );
+				done();
+			});
+			ok( errs );
+		});
+
 
 		it("should be able to validate async", function(done) {
 			var schema = type.object({

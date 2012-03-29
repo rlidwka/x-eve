@@ -30,6 +30,15 @@ describe("type", function() {
 			equal( errs.messages().length, 2 );
 		});
 
+		it("should have item schema of clone", function() {
+			var schema = type.array( type.number().max(2) ).len(5).clone().val([1, "2s", 3]);
+			deepEqual( schema.val(), [1, 2, 3] );
+			var errs = schema.validate( function(errs) {
+				equal( errs.messages().length, 2 );
+			} );
+			equal( errs.messages().length, 2 );
+		});
+
 		it("should be able to recognize type alias", function() {
 			var data = type.array( { login: String } ).val( [{login: 123}] ).val();
 			strictEqual( data[0].login, "123" );

@@ -20,9 +20,27 @@ describe("type", function() {
 			ok( !schema.validate() );
 		});
 
+		it("should process values for clones", function() {
+			var sc = schema.clone();
+			var val = sc.val(" Test@g.com ").val();
+			equal(val, "test@g.com");
+			ok( !sc.validate() );
+		});
+
 		it("should be able to validate if both fails", function(done) {
 			schema.val("");
 			var errs = schema.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 2 );
+				done();
+			});
+			ok( errs );
+		});
+
+		it("should be able to validate if both fails for clones", function(done) {
+			var sc = schema.clone();
+			sc.val("");
+			var errs = sc.validate(function(errs) {
 				ok( errs );
 				equal( errs.messages().length, 2 );
 				done();
@@ -40,9 +58,29 @@ describe("type", function() {
 			ok( errs );
 		});
 
+		it("should be able to validate if one is valid for clones", function(done) {
+			var sc = schema.clone();
+			sc.val("test");
+			var errs = sc.validate(function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+				done();
+			});
+			ok( errs );
+		});
+
 		it("should be able to validate if both are valid", function(done) {
 			schema.val("ddddt@g.com");
 			var errs = schema.validate(function(errs) {
+				ok( !errs );
+				done();
+			});
+		});
+
+		it("should be able to validate if both are valid for clones", function(done) {
+			var sc = schema.clone();
+			sc.val("ddddt@g.com");
+			var errs = sc.validate(function(errs) {
 				ok( !errs );
 				done();
 			});

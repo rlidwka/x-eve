@@ -15,7 +15,7 @@ class type._and extends type.Base
       cloned_schemas.push schema.clone()
     obj = new @constructor(cloned_schemas)
     for key, val of @
-      if @hasOwnProperty[key] && key != '_value' && key != 'schemas'
+      if @hasOwnProperty(key) && key != '_value' && key != 'schemas'
         obj[key] = val
     return obj
 

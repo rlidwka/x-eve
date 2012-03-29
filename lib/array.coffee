@@ -12,9 +12,10 @@ class type._array extends type.Base
     @schema = sc
 
   clone: ->
+    #console.log @original_schema
     obj = new @constructor(@original_schema.clone())
     for key, val of @
-      if @hasOwnProperty[key] && key != '_value' && key != 'schema'
+      if @hasOwnProperty(key) && key != '_value' && key != 'schema'
         obj[key] = val
     return obj
     

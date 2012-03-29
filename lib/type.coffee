@@ -44,7 +44,7 @@ class type.Base
   clone: ->
     obj = new @constructor()
     for key, val of @
-      if @hasOwnProperty[key] && key != '_value'
+      if @hasOwnProperty(key) && key != '_value'
         obj[key] = val
     return obj
 
