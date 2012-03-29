@@ -9,6 +9,16 @@ class type._and extends type.Base
     self = @
     self.schemas = schemas
 
+  clone: ->
+    cloned_schemas = []
+    for schema in @schemas
+      cloned_schemas.push schema.clone()
+    obj = new @constructor(cloned_schemas)
+    for key, val of @
+      if @hasOwnProperty[key] && key != '_value' && key != 'schemas'
+        obj[key] = val
+    return obj
+
   validate: (callback) ->
     self = @
     er1 = undefined

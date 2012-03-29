@@ -6,9 +6,17 @@ message = require "./message"
 class type._array extends type.Base
   constructor: (schema) ->
     super()
+    @original_schema = schema
     sc = type schema
     sc = type.object(schema) if not sc and validator.isObject(schema) and type.object
     @schema = sc
+
+  clone: ->
+    obj = new @constructor(@original_schema.clone())
+    for key, val of @
+      if @hasOwnProperty[key] && key != '_value' && key != 'schema'
+        obj[key] = val
+    return obj
     
   len: (minOrLen, max, msg) ->
     last = arguments[arguments.length - 1]

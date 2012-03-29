@@ -12,6 +12,7 @@ class type._object extends type.Base
   constructor: (schema) ->
     super()
     self = @
+    @original_schema = schema
     ar = self.schema = []
     push = (path, val) ->
       sc = type(val)
@@ -24,6 +25,13 @@ class type._object extends type.Base
           push (if path then (path + "." + key) else key), v
     
     push null, schema
+
+  clone: ->
+    obj = new @constructor(@original_schema.clone())
+    for key, val of @
+      if @hasOwnProperty[key] && key != '_value' && key != 'schema'
+        obj[key] = val
+    return obj
 
   afterValue: ->
     ob = @_value
