@@ -16,6 +16,7 @@ require "./object"
 require "./array"
 require "./or"
 require "./and"
+require "./bool"
 
 # Library version.
 eve.version = require(__dirname + "/../package.json")['version']
