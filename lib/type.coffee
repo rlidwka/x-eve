@@ -120,6 +120,9 @@ validate = (schema, val, callback, context) ->
     validator.isFunction( callback ) && callback(e)
     e
 
+  unless schema.constructor.check()
+    _errors.push message("wrongType", "", type: schema.constructor.name)
+
   #Check required
   if required && notExists
     _errors.push required
