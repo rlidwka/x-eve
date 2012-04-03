@@ -22,7 +22,7 @@ describe("type", function() {
 		});
 
 		it("should have item schema", function() {
-			var schema = type.array( type.number().max(2) ).len(5).val([1, "2s", 3]);
+			var schema = type.array( type.number().max(2) ).len(5).val([1, "2", 3]);
 			deepEqual( schema.val(), [1, 2, 3] );
 			var errs = schema.validate( function(errs) {
 				equal( errs.messages().length, 2 );
@@ -35,10 +35,10 @@ describe("type", function() {
 
 			var errs = schema.val( { test2: ["a"] }).validate( function(errs) {
 				ok( errs );
-				equal( errs.messages().length, 1 );
+				equal( errs.messages().length, 2 );
 			} );
 			ok( errs );
-			equal( errs.messages().length, 1 );
+			equal( errs.messages().length, 2 );
 		});
 
 		it("should raise if empty", function() {
@@ -55,13 +55,13 @@ describe("type", function() {
 		it("should validate inner object", function() {
 			var schema = type.array( type.object({ login: type.string().required() })).val([{"nologin": true}, {"login": true}, {"nologin": true}]);
 			var errs = schema.validate( function(errs) {
-				equal( errs.messages().length, 2 );
+				equal( errs.messages().length, 6 );
 			} );
-			equal( errs.messages().length, 2 );
+			equal( errs.messages().length, 6 );
 		});
 
 		it("should have item schema of clone", function() {
-			var schema = type.array( type.number().max(2) ).len(5).clone().val([1, "2s", 3]);
+			var schema = type.array( type.number().max(2) ).len(5).clone().val([1, "2", 3]);
 			deepEqual( schema.val(), [1, 2, 3] );
 			var errs = schema.validate( function(errs) {
 				equal( errs.messages().length, 2 );
@@ -70,7 +70,7 @@ describe("type", function() {
 		});
 
 		it("should be able to recognize type alias", function() {
-			var data = type.array( { login: String } ).val( [{login: 123}] ).val();
+			var data = type.array( { login: String } ).val( [{login: "123"}] ).val();
 			strictEqual( data[0].login, "123" );
 		});
 	});
