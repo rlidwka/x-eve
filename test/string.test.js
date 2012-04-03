@@ -54,6 +54,17 @@ describe("type", function() {
 			} );
 		});
 
+		it("should handle 'required' seperate from 'notEmpty'", function(done) {
+			type.string().notEmpty().val(null).validate( function(err) {
+				ok( !err );
+			} );
+
+			type.string().notEmpty().val("").validate( function(err) {
+				ok( err );
+			} );
+			done();
+		});
+
 		it("should be a url", function() {
 			type.string().url().val("http").validate( function(err) {
 				ok( err && err.messages() );

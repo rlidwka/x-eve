@@ -9,11 +9,11 @@ describe("type", function() {
 			ok( type.any );
 		});
 
-		it("should can check exist and empty", function() {
+		it("should check exist and empty", function() {
 			ok( type.any().required().value(null).validate() );
 			ok( !type.any().required().value("").validate() );
 
-			ok( type.any().notEmpty().value(null).validate() );
+			ok( !type.any().notEmpty().value(null).validate() );
 			ok( type.any().notEmpty().value("  ").validate() );
 		});
 

@@ -120,18 +120,21 @@ validate = (schema, val, callback, context) ->
     validator.isFunction( callback ) && callback(e)
     e
 
-  if (val != undefined && val != null) && !schema.constructor.check(val)
-    _errors.push message("wrongType", "", type: schema.constructor.name)
-
   #Check required
   if required && notExists
     _errors.push required
     return done()
   
-  empty = !validator.notEmpty val
+  if notExists
+    return done()
+
+  if !schema.constructor.check(val)
+    _errors.push message("wrongType", "", type: schema.constructor.name)
+    return done()
+
   #Check empty
-  if empty
-    notEmpty && _errors.push( notEmpty )
+  if notEmpty && !validator.notEmpty(val)
+    _errors.push( notEmpty )
     return done()
 
   if !len
