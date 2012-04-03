@@ -14,6 +14,7 @@ class Message
 			"required": "is required",
 			"notEmpty": "can't be empty",
 			"len": "should have length {{len}}",
+			"wrongType": "should be a {{type}}"
 			"len_in": "should have max length {{max}} and min length {{min}}",
 			"match": "should match {{expression}}",
 			"email": "must be an email address",
