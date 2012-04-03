@@ -64,6 +64,15 @@ describe("type", function() {
 			} );
 		});
 
+		it("should require a string val", function() {
+			console.log(type.string().required().val(new Date()).val());
+			
+			type.string().required().val(new Date()).validate( function(err) {
+				ok( err && err.messages() );
+			} );
+			
+		});
+
 		it("should support enum validate", function() {
 			ok(!type.string().enum(["male", "famale"]).val("male").validate());
 			ok(type.string().enum(["male", "famale"]).val("other").validate());
