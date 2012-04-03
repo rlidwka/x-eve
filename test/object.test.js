@@ -163,7 +163,7 @@ describe("type", function() {
 				login: String
 				, email: String
 			});
-			strictEqual( schema.val( { login: 123 } ).val().login, "123" );
+			strictEqual( schema.val( { login: "123" } ).val().login, "123" );
 		});
 	});
 });

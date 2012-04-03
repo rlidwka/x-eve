@@ -32,9 +32,9 @@ class type._number extends type.Base
 			if parsed.toString() == obj
 				return parsed
 			else
-				return null
+				return obj
 		else
-			null
+			obj
 
 		#obj = parseFloat( obj )
 		#if obj then obj else ( if obj == 0 then 0 else null )
@@ -51,9 +51,9 @@ class type._integer extends type._number
 			if parsed.toString() == obj
 				return parsed
 			else
-				return null
+				return obj
 		else
-			null
+			obj
 		#obj = parseInt obj, 10
 		#if obj then obj else ( if obj == 0 then 0 else null )
 

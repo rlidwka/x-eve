@@ -35,10 +35,10 @@ describe("type", function() {
 
 			var errs = schema.val( { test2: ["a"] }).validate( function(errs) {
 				ok( errs );
-				equal( errs.messages().length, 2 );
+				equal( errs.messages().length, 1 );
 			} );
 			ok( errs );
-			equal( errs.messages().length, 2 );
+			equal( errs.messages().length, 1 );
 		});
 
 		it("should raise if empty", function() {
@@ -55,9 +55,9 @@ describe("type", function() {
 		it("should validate inner object", function() {
 			var schema = type.array( type.object({ login: type.string().required() })).val([{"nologin": true}, {"login": true}, {"nologin": true}]);
 			var errs = schema.validate( function(errs) {
-				equal( errs.messages().length, 6 );
+				equal( errs.messages().length, 3 );
 			} );
-			equal( errs.messages().length, 6 );
+			equal( errs.messages().length, 3 );
 		});
 
 		it("should have item schema of clone", function() {
