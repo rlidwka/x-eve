@@ -88,7 +88,7 @@ class type._object extends type.Base
 
   @alias: Object
   @check: (obj) -> validator.isObject obj
-  @from: (obj) -> (if validator.exists(obj) then (if validator.isObject(obj) then obj else null) else obj)
+  @from: (obj) -> (if validator.exists(obj) then (if validator.isObject(obj) then obj else obj) else obj)
   @path: objectPath
 
 hasOwnProperty = Object::hasOwnProperty
