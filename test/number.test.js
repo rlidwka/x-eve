@@ -21,6 +21,12 @@ describe("type", function() {
 			ok( type.number().min(10).max(30).val(40).validate() );
 		});
 
+		it("should not accept empty numbers", function() {
+			ok( type.number().notEmpty().val(0).validate() );
+			ok( type.number().notEmpty().val(0.0).validate() );
+			ok( !type.number().notEmpty().val(1).validate() );
+		});
+
 	});
 
 	describe("integer", function() {

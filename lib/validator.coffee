@@ -26,7 +26,10 @@ class validator
   isAlphanumeric:   (str) -> !!(str and str.match(/^[a-zA-Z0-9]+$/))
   isIp:             (str) -> !!(str and str.match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/))
   exists:           (obj) -> obj isnt null and obj isnt `undefined`
-  notEmpty:         (obj) -> !!(obj isnt null and obj isnt `undefined` and not (obj + "").match(/^[\s\t\r\n]*$/))
+  notEmpty:         (obj) -> 
+    if @isNumber(obj) 
+      return obj != 0
+    !!(obj isnt null and obj isnt `undefined` and not (obj + "").match(/^[\s\t\r\n]*$/))
   equals:           (obj, eql) -> obj is eql
   contains:         (obj, item) ->
     return false  unless obj
