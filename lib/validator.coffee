@@ -27,6 +27,11 @@ class validator
   isIp:             (str) -> !!(str and str.match(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/))
   exists:           (obj) -> obj isnt null and obj isnt `undefined`
   notEmpty:         (obj) -> 
+    if @isObject(obj)
+      for key, val of obj
+        if val != undefined
+          return true
+      return false
     if @isNumber(obj) 
       return obj != 0
     !!(obj isnt null and obj isnt `undefined` and not (obj + "").match(/^[\s\t\r\n]*$/))

@@ -69,6 +69,17 @@ describe("type", function() {
 			});
 		});
 
+		it("should allow a not required inner object that is not empty when it exists", function(done) {
+			var schema = type.object({
+				login: type.object( { inner: type.string() } ).notEmpty()
+			});
+			var errs = schema.val({ other: {} }).validate();
+			ok( !errs );
+			var errs = schema.val({ login: {} }).validate();
+			ok( errs );
+			done();
+		});
+
 		it("should validate an object within an invalid object", function(done) {
 			var schema = type.object({
 				test: type.object({
