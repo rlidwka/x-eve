@@ -31,8 +31,9 @@ class type._and extends type.Base
 
   afterValue: ->
     @validate()
-    for sc in @_valid_schemas
-      @_value = sc.val(@_value).val()
+    if @_valid_schemas
+      for sc in @_valid_schemas
+        @_value = sc.val(@_value).val()
     @
 
   validateChild: (err, callback) ->

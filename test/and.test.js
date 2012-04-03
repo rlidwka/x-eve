@@ -20,6 +20,30 @@ describe("type", function() {
 			ok( !schema.validate() );
 		});
 
+		it("should validate required if required and embedded in object", function() {
+			var schema = type.object( { test: type.and(
+					[ type.string().len(5), type.string().email()]  
+			).required() } );
+
+			var errs = schema.val( { test2: ["a"] }).validate( function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+			} );
+			ok( errs );
+			equal( errs.messages().length, 1 );
+		});
+
+		it("should not validate required if not required and embedded in object", function() {
+			var schema = type.object( { test: type.and(
+					[ type.string().len(5), type.string().email()]  
+			) } );
+
+			var errs = schema.val( { test2: ["a"] }).validate( function(errs) {
+				ok( !errs );
+			} );
+			ok( !errs );
+		});
+
 		it("should process values for clones", function() {
 			var sc = schema.clone();
 			var val = sc.val(" Test@g.com ").val();
