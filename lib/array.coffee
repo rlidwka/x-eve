@@ -82,13 +82,6 @@ class type._array extends type.Base
 
   @alias: Array
   @check: (obj) -> validator.isArray obj
-  @from: (obj) ->
-    if validator.exists(obj)
-      if validator.isArray(obj)
-        return obj
-      else return obj.split(",")  if typeof obj is "string"
-    else
-      return obj
-    null
+  @from: (obj) -> obj
 
 type.register 'array', type._array
