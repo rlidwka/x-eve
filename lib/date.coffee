@@ -21,11 +21,11 @@ class type._date extends type.Base
 
 			#TODO: test rfc3339 for browser IE...
 			time = Date.parse obj
-			return if time then new Date time else null
+			return if time then new Date time else obj
 
 		if 'number' == typeof obj
 			return new Date obj * Math.pow(10, 13 - ("" + obj).length)
 		
-		if obj then null else obj
+		return obj
 
 type.register 'date', type._date
