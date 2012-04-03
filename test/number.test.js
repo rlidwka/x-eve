@@ -10,7 +10,7 @@ describe("type", function() {
 		});
 
 		it("should convert type", function() {
-			strictEqual( type.number().val("23dd").val(), 23 );
+			strictEqual( type.number().val("23dd").val(), null );
 			strictEqual( type.number().val("23.11").val(), 23.11 );
 			strictEqual( type.number().val(23.11).val(), 23.11 );
 		});
@@ -30,9 +30,9 @@ describe("type", function() {
 		});
 
 		it("should convert type", function() {
-			strictEqual( type.integer().val("23dd").val(), 23 );
-			strictEqual( type.integer().val("23.11").val(), 23 );
-			strictEqual( type.integer().val(23.11).val(), 23 );
+			strictEqual( type.integer().val("23dd").val(), null );
+			strictEqual( type.integer().val("23.11").val(), null );
+			strictEqual( type.integer().val(23.11).val(), null );
 			strictEqual( type.integer().val("sfd").val(), null );
 			strictEqual( type.integer().val(null).val(), null );
 			strictEqual( type.integer().val(0).val(), 0 );
