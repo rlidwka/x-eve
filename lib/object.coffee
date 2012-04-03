@@ -67,6 +67,7 @@ class type._object extends type.Base
     iterate = ->
       sc = schema[completed]
       path = new objectPath(ob, sc[0])
+      return next() if ob == null
       return next()  if ignoreUndefined and not path.exists()
       sc[1].context(ob).validate ((err) ->
         _errors.on sc[0], err  if err

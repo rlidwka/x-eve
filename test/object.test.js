@@ -80,6 +80,17 @@ describe("type", function() {
 			done();
 		});
 
+		it("should allow a not required inner object even if it has required attributes", function(done) {
+			var schema = type.object({
+				login: type.object( { inner: type.string().required() } )
+			});
+			var errs = schema.val({ login: {} }).validate();
+			ok( errs );
+			var errs = schema.val({ other: {} }).validate();
+			ok( !errs );
+			done();
+		});
+
 		it("should validate an object within an invalid object", function(done) {
 			var schema = type.object({
 				test: type.object({
@@ -137,7 +148,7 @@ describe("type", function() {
 			schema.val({nologin: "t"});
 			var errs = schema.validate(function(errs) {
 				ok( errs );
-				equal( errs.messages().length, 2 );
+				equal( errs.messages().length, 1 );
 			});
 			ok( errs );
 			schema.val({login: { user: "test" }});			
