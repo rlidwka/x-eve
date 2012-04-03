@@ -52,9 +52,6 @@ class type._string extends type.Base
 
 	@alias: String
 	@check: (obj) -> validator.isString obj
-	@from: (obj) -> 
-		#console.log([obj, validator.isString(obj)])
-		#if validator.isString obj then obj else null
-		if obj then String obj else obj
+	@from: (obj) -> if validator.isString obj then obj else null
 
 type.register 'string', type._string
