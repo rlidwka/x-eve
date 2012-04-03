@@ -41,8 +41,19 @@ describe("type", function() {
 			equal( errs.messages().length, 1 );
 		});
 
+		it("should be an array if embedded in object", function() {
+			var schema = type.object( { test: type.array().required() } ).required();
+
+			var errs = schema.val( { test: 3 }).validate( function(errs) {
+				ok( errs );
+				equal( errs.messages().length, 1 );
+			} );
+			ok( errs );
+			equal( errs.messages().length, 1 );
+		});
+
 		it("should be an array", function() {
-			var schema = type.array( type.number() );
+			var schema = type.array( );
 
 			var errs = schema.val({}).validate( function(errs) {
 				ok( errs );
@@ -80,8 +91,10 @@ describe("type", function() {
 		it("should validate inner object", function() {
 			var schema = type.array( type.object({ login: type.string().required() })).val([{"nologin": true}, {"login": true}, {"nologin": true}]);
 			var errs = schema.validate( function(errs) {
+				ok( errs );
 				equal( errs.messages().length, 3 );
 			} );
+			ok( errs );
 			equal( errs.messages().length, 3 );
 		});
 

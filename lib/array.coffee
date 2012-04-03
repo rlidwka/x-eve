@@ -47,12 +47,12 @@ class type._array extends type.Base
     self = @
     er1 = undefined
     if (@_value == null || @_value == undefined || @_value.length == 0)
-      er2 = @_validate (err) -> 
-        callback(err) if callback
+      er2 = @_validate (err) -> callback(err) if callback
     else
-      er2 = @_validate((err) ->
+      er2 = @_validate (err) ->        
         er1 = self.schema and self._value and self._value.length and self.validateChild(err, callback) or null
-      )
+        callback(err) if err and callback
+      
     er1 or er2
 
   validateChild: (err, callback) ->
