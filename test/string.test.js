@@ -52,6 +52,7 @@ describe("type", function() {
 				equal( err.messages(true)[0], "be an email" );
 				done();
 			} );
+			ok(type.string().email()._email);
 		});
 
 		it("should handle 'required' seperate from 'notEmpty'", function(done) {
@@ -73,6 +74,8 @@ describe("type", function() {
 			type.string().url().val("http://google.com").validate( function(err) {
 				ok( !err );
 			} );
+
+			ok(type.string().url()._url);
 		});
 
 		it("should be a string", function() {
@@ -93,6 +96,9 @@ describe("type", function() {
 		it("should support enum validate", function() {
 			ok(!type.string().enum(["male", "famale"]).val("male").validate());
 			ok(type.string().enum(["male", "famale"]).val("other").validate());
+			var sc = type.string().enum(["a", "b"]);
+			equal("a", sc._enum[0]);
+			equal("b", sc._enum[1]);
 		});
 
 	});

@@ -48,6 +48,9 @@ describe("type", function() {
 		it("should support enum validate", function() {
 			ok(!type.integer().enum([1, 2, 3]).val(1).validate());
 			ok(type.integer().enum([1, 2, 3]).val(0).validate());
+			var sc = type.integer().enum([2, 4]);
+			equal(2, sc._enum[0]);
+			equal(4, sc._enum[1]);
 		});
 	});
 });

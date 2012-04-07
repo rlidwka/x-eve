@@ -18,6 +18,7 @@ class type._number extends type.Base
 		@
 	
 	enum: (items, msg) ->
+		@_enum = items
 		@validator ( num ) ->
 			validator.contains( items, num )
 		, message("enum", msg, items: items.join ",")

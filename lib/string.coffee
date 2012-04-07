@@ -26,15 +26,18 @@ class type._string extends type.Base
 		@
 		
 	enum: (items, msg) ->
+		@_enum = items
 		@validator (( str ) -> validator.contains items, str ),
 			message("enum", msg, items: items.join ",")
 		@
 	
 	email: ( msg ) ->
+		@_email = true
 		@validator (( str ) -> if str && validator.isEmail(str) then true else false ), message("email", msg)
 		@
 	
 	url: ( msg ) ->
+		@_url = true
 		@validator (( str ) -> if str && validator.isUrl(str) then true else false ), message("url", msg)
 		@
 	
