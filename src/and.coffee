@@ -48,17 +48,13 @@ class type._and extends type.Base
     iterate = ->
       sc = schemas[completed]
       sc.val(ob).validate (err) ->        
-        unless err
-          self._valid_schemas.push sc
-        else
+        self._valid_schemas.push sc unless err
         _errors.on completed, err  if err
         next()
     next = ->
       completed++
-      if completed is len
-        done()
-      else
-        iterate()
+      return done() if completed is len
+      iterate()
     errors = -> 
       return null if self._valid_schemas.length is len
       _errors.ok and _errors or null
