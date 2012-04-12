@@ -12,6 +12,7 @@
 	, "devDependencies": { 
 			"mocha": "*"
 		, "chai": "*"
+		, "browserify": "*"
 		, "coffee-script": ">=1.1.1"
 	}
 	, "main": "index"

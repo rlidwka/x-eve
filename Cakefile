@@ -2,6 +2,19 @@ fs            = require 'fs'
 {print}       = require 'util'
 {spawn, exec} = require 'child_process'
 
+buildBrowserFile = (callback) ->
+  options = ['tests.js', '-o', 'test/browser/browserify.js']
+  browserify = spawn 'browserify', options
+  browserify.stdout.on 'data', (data) -> print data.toString()
+  browserify.stderr.on 'data', (data) -> print data.toString()
+  browserify.on 'exit', (status) -> callback?() if status is 0
+
+fileserver = (callback) ->
+  server = spawn 'node', ["server.js"]
+  server.stdout.on 'data', (data) -> print data.toString()
+  server.stderr.on 'data', (data) -> print data.toString()
+  server.on 'exit', (status) -> callback?() if status is 0
+
 build = (watch, callback) ->
   if typeof watch is 'function'
     callback = watch
@@ -24,7 +37,7 @@ task 'docs', 'Generate annotated source code with Docco', ->
 
 task 'build', 'Compile CoffeeScript source files', ->
   build()
-
+    
 task 'watch', 'Recompile CoffeeScript source files when modified', ->
   build true
 
@@ -34,3 +47,7 @@ task 'test', 'Run the test suite', ->
     {reporters} = require 'nodeunit'
     process.chdir __dirname
     reporters.default.run ['test']
+
+task 'browser-tests', 'Build and serve test files for browser', ->
+  buildBrowserFile ->
+    fileserver()
