@@ -10,6 +10,7 @@
 			"mocha": "*"
 		, "chai": "*"
 		, "browserify": "*"
+		, "node-static": "*"
 		, "coffee-script": ">=1.1.1"
 	}
 	, "main": "index"
