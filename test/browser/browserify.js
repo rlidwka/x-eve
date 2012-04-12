@@ -6442,6 +6442,101 @@ require.define("/test/examples.test.coffee", function (require, module, exports,
 
 });
 
+require.define("/test/extend.test.coffee", function (require, module, exports, __dirname, __filename) {
+(function() {
+  var assert, deepEqual, equal, eve, fail, message, notDeepEqual, notEqual, notStrictEqual, ok, strictEqual, type, validator, _ref;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  _ref = require("./helper"), assert = _ref.assert, ok = _ref.ok, fail = _ref.fail, equal = _ref.equal, notEqual = _ref.notEqual, deepEqual = _ref.deepEqual, notDeepEqual = _ref.notDeepEqual, strictEqual = _ref.strictEqual, notStrictEqual = _ref.notStrictEqual, eve = _ref.eve;
+
+  type = eve.type;
+
+  message = eve.message;
+
+  validator = eve.validator;
+
+  validator.isGood = function(str) {
+    return this.isString(str) && str === 'good';
+  };
+
+  type._string.prototype.good = function(msg) {
+    this._good = true;
+    this.validator((function(str) {
+      return str && validator.isGood(str);
+    }), message("good", msg));
+    return this;
+  };
+
+  type._my = (function() {
+
+    __extends(_my, type.Base);
+
+    function _my() {
+      _my.__super__.constructor.call(this);
+      this.validator(function(val) {
+        return val === 'myval';
+      }, message("invalid"));
+    }
+
+    return _my;
+
+  })();
+
+  type.register('my', type._my);
+
+  describe("extend", function() {
+    describe("my type", function() {
+      it("should have my type", function() {
+        return ok(type.my);
+      });
+      it("should validate", function() {
+        ok(type.my().required().value("other").validate());
+        return ok(!type.my().required().value("myval").validate());
+      });
+      it("should check exist and empty", function() {
+        ok(type.my().required().value(null).validate());
+        ok(!type.my().required().value("myval").validate());
+        ok(!type.my().notEmpty().value(null).validate());
+        return ok(type.my().notEmpty().value(" ").validate());
+      });
+      it("should return in callback", function(done) {
+        return type.my().required().value(null).validate(function(err) {
+          ok(err);
+          return done();
+        });
+      });
+      it("should skip validator when empty", function(done) {
+        return type.my().validator(function(val) {
+          return val === 10;
+        }).value(null).validate(function(err) {
+          ok(!err);
+          return done();
+        });
+      });
+      it("should set default value", function() {
+        equal(type.my()["default"]("myval").value(null).value(), "myval");
+        return equal(type.my()["default"]("myval").value(void 0).value(), "myval");
+      });
+      return it("should can add a processor", function() {
+        var schema;
+        schema = type.my().processor(function(val) {
+          return val + "-modified";
+        });
+        return equal(schema.value("myval").value(), "myval-modified");
+      });
+    });
+    return describe("good string", function() {
+      return it("should validate", function() {
+        ok(type.string().good().required().value("other").validate());
+        return ok(!type.string().good().required().value("good").validate());
+      });
+    });
+  });
+
+}).call(this);
+
+});
+
 require.define("/test/message.test.coffee", function (require, module, exports, __dirname, __filename) {
 (function() {
   var assert, deepEqual, equal, eve, fail, notDeepEqual, notEqual, notStrictEqual, ok, strictEqual, _ref;
@@ -6507,6 +6602,63 @@ require.define("/lib/message-zh-CN.js", function (require, module, exports, __di
     max: "必须小于或等于 {{count}}",
     taken: "已经被使用",
     "enum": "必须包含在({{items}})中"
+  });
+
+}).call(this);
+
+});
+
+require.define("/test/number.test.coffee", function (require, module, exports, __dirname, __filename) {
+(function() {
+  var assert, deepEqual, equal, eve, fail, notDeepEqual, notEqual, notStrictEqual, ok, strictEqual, _ref;
+
+  _ref = require("./helper"), assert = _ref.assert, ok = _ref.ok, fail = _ref.fail, equal = _ref.equal, notEqual = _ref.notEqual, deepEqual = _ref.deepEqual, notDeepEqual = _ref.notDeepEqual, strictEqual = _ref.strictEqual, notStrictEqual = _ref.notStrictEqual, eve = _ref.eve;
+
+  describe("type", function() {
+    var type;
+    type = eve.type;
+    describe("number", function() {
+      it("should have number type", function() {
+        return ok(type.number);
+      });
+      it("should convert type", function() {
+        strictEqual(type.number().val("23dd").val(), "23dd");
+        strictEqual(type.number().val("23.11").val(), 23.11);
+        return strictEqual(type.number().val(23.11).val(), 23.11);
+      });
+      it("should be able to compare", function() {
+        ok(!type.number().min(10).max(30).val(23.11).validate());
+        ok(type.number().min(10).max(30).val(9).validate());
+        return ok(type.number().min(10).max(30).val(40).validate());
+      });
+      return it("should not accept empty numbers", function() {
+        ok(type.number().notEmpty().val(0).validate());
+        ok(type.number().notEmpty().val(0.0).validate());
+        return ok(!type.number().notEmpty().val(1).validate());
+      });
+    });
+    return describe("integer", function() {
+      it("should have integer type", function() {
+        return ok(type.integer);
+      });
+      it("should convert type", function() {
+        strictEqual(type.integer().val("23dd").val(), "23dd");
+        strictEqual(type.integer().val("23.11").val(), "23.11");
+        strictEqual(type.integer().val("23").val(), 23);
+        strictEqual(type.integer().val(23.11).val(), 23.11);
+        strictEqual(type.integer().val("sfd").val(), "sfd");
+        strictEqual(type.integer().val(null).val(), null);
+        return strictEqual(type.integer().val(0).val(), 0);
+      });
+      return it("should support enum validate", function() {
+        var sc;
+        ok(!type.integer()["enum"]([1, 2, 3]).val(1).validate());
+        ok(type.integer()["enum"]([1, 2, 3]).val(0).validate());
+        sc = type.integer()["enum"]([2, 4]);
+        equal(2, sc._enum[0]);
+        return equal(4, sc._enum[1]);
+      });
+    });
   });
 
 }).call(this);
@@ -7214,7 +7366,9 @@ require('./test/array.test.coffee');
 require('./test/bool.test.coffee');
 require('./test/error.test.coffee');
 require('./test/examples.test.coffee');
+require('./test/extend.test.coffee');
 require('./test/message.test.coffee');
+require('./test/number.test.coffee');
 require('./test/object.test.coffee');
 require('./test/or.test.coffee');
 require('./test/string.test.coffee');
