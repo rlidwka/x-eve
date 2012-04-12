@@ -1,4 +1,6 @@
 {assert, ok, fail, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual, eve} = require "./helper"
+if (typeof window) != 'undefined'
+  require './../lib/message-zh-CN.js'
 
 describe "message", ->
   message = eve.message
