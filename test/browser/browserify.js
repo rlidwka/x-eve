@@ -7204,8 +7204,12 @@ require.define("/test/validator.test.coffee", function (require, module, exports
 
 });
 
-require.define("/tests.js", function (require, module, exports, __dirname, __filename) {
-    require('./test/and.test.coffee');
+require.define("/browser.tests.js", function (require, module, exports, __dirname, __filename) {
+    /*
+	add all tests here that should be served to the browser
+*/
+
+require('./test/and.test.coffee');
 require('./test/array.test.coffee');
 require('./test/bool.test.coffee');
 require('./test/error.test.coffee');
@@ -7218,4 +7222,4 @@ require('./test/type.test.coffee');
 require('./test/validator.test.coffee');
 
 });
-require("/tests.js");
+require("/browser.tests.js");

@@ -1,3 +1,7 @@
+/*
+	add all tests here that should be served to the browser
+*/
+
 require('./test/and.test.coffee');
 require('./test/array.test.coffee');
 require('./test/bool.test.coffee');

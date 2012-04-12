@@ -3,7 +3,7 @@ fs            = require 'fs'
 {spawn, exec} = require 'child_process'
 
 buildBrowserFile = (callback) ->
-  options = ['tests.js', '-o', 'test/browser/browserify.js']
+  options = ['browser.tests.js', '-o', 'test/browser/browserify.js']
   browserify = spawn 'browserify', options
   browserify.stdout.on 'data', (data) -> print data.toString()
   browserify.stderr.on 'data', (data) -> print data.toString()
