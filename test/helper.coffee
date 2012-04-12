@@ -1,6 +1,6 @@
 #if (typeof require) != "undefined"
 exporter = {}
-exporter.assert = require("assert")
+exporter.assert = require("chai").assert
 exporter.ok = exporter.assert.ok
 exporter.fail = exporter.assert.fail
 exporter.equal = exporter.assert.equal

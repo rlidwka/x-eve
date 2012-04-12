@@ -11,7 +11,7 @@
 	, "dependencies": {}
 	, "devDependencies": { 
 			"mocha": "*"
-		, "assert": "*"
+		, "chai": "*"
 		, "coffee-script": ">=1.1.1"
 	}
 	, "main": "index"
