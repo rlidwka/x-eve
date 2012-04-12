@@ -1,4 +1,5 @@
-require "./helper.js"
+{assert, ok, fail, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual, eve} = require "./helper"
+
 describe "type", ->
   type = eve.type
   describe "array", ->
