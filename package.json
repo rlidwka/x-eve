@@ -16,5 +16,5 @@
 	}
 	, "main": "index"
 	, "engines": { "node": ">=0.4.x" }
-	, "repository" : { "type" :  "git", "url" : "http://github.com/zzdhidden/EVE.git" }
+	, "repository" : { "type" :  "git", "url" : "http://github.com/metakeule/EVE.git" }
 }
