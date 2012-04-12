@@ -10,7 +10,6 @@ exporter.notDeepEqual = exporter.assert.notDeepEqual
 exporter.strictEqual = exporter.assert.strictEqual
 exporter.notStrictEqual = exporter.assert.notStrictEqual
 exporter.eve = require("../index.js")
-console.log "helper called"
 exports = module.exports = exporter
 #else
 #  require = ->
