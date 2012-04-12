@@ -5,9 +5,6 @@
 	, "description": "A JavaScript object schema, processor and validation lib."
 	, "keywords": ["schema", "process", "validate"]
 	, "author": "Hidden <zzdhidden@gmail.com>"
-	, "scripts": {
-  	"install": "./node_modules/coffee-script/bin/cake build"
-	}
 	, "dependencies": {}
 	, "devDependencies": { 
 			"mocha": "*"
