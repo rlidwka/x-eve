@@ -48,7 +48,11 @@ class type._object extends type.Base
       if path.exists()
         path.set sc[1].value(path.get()).value()
       else
-        sc[1].value null
+        default_ = sc[1].value(null).value()
+        if default_
+          path.set default_
+        else
+          sc[1].value null
       i++
     @
 

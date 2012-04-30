@@ -114,6 +114,20 @@ describe "type", ->
         ok not errs
         done()
 
+    it "should add defaults to inner objects", (done) ->
+      schema = type.object(test: type.object(
+        login: type.string().default('a').required()
+        email: type.string().default('a@example.com').required().email()
+      ))
+      obj = schema.val(test:
+        login: "b"
+      );
+      obj.validate (errs, doc) ->
+        equal obj.value().test.login, 'b'
+        equal obj.value().test.email, 'a@example.com'
+        ok not errs
+        done()
+
     it "should be able to ignore undefined attribute", ->
 
     it "should be able to validate required attribute", (done) ->
