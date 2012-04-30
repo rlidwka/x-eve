@@ -70,8 +70,12 @@ describe "type", ->
       type.string().val([]).validate (err) ->
         ok err and err.messages()
 
+    it "should convert numbers", ->
       type.string().val(4).validate (err) ->
-        ok err and err.messages()
+        ok not err
+
+      type.string().val(4.5).validate (err) ->
+        ok not err
 
     it "should support enum validate", ->
       ok not type.string().enum([ "male", "famale" ]).val("male").validate()
