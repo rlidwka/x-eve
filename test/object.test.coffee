@@ -162,6 +162,33 @@ describe "type", ->
       ))
       schema.val(login: "admin").validate()
 
+    it "should raise if array", ->
+      schema = type.object(test: type.string()).required()
+      errs = schema.val(["hi"]).validate((errs) ->
+        ok errs
+        equal errs.messages().length, 1
+      )
+      ok errs
+      equal errs.messages().length, 1
+
+    it "should raise if string", ->
+      schema = type.object(test: type.string()).required()
+      errs = schema.val("hi").validate((errs) ->
+        ok errs
+        equal errs.messages().length, 1
+      )
+      ok errs
+      equal errs.messages().length, 1
+
+    it "should raise if number", ->
+      schema = type.object(test: type.string()).required()
+      errs = schema.val(435).validate((errs) ->
+        ok errs
+        equal errs.messages().length, 1
+      )
+      ok errs
+      equal errs.messages().length, 1
+
     it "should output with alias", ->
       schema = type.object(
         login: type.string().alias("Login").trim().lowercase().notEmpty().len(3, 12)

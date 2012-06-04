@@ -73,6 +73,15 @@ describe "type", ->
       ok errs
       equal errs.messages().length, 1
 
+    it "should raise if no array", ->
+      schema = type.object(test: type.array(type.number().required()).notEmpty()).required()
+      errs = schema.val(test: "a test").validate((errs) ->
+        ok errs
+        equal errs.messages().length, 1
+      )
+      ok errs
+      equal errs.messages().length, 1
+
     it "should validate inner object", ->
       schema = type.array(type.object(login: type.string().required())).val([{nologin: true},{login: true},{nologin: true}])
       errs = schema.validate((errs) ->

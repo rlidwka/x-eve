@@ -5420,7 +5420,11 @@ require.define("/lib/string.js", function (require, module, exports, __dirname, 
     };
 
     _string.from = function(obj) {
-      return obj;
+      if (validator.isNumber(obj)) {
+        return obj.toString();
+      } else {
+        return obj;
+      }
     };
 
     return _string;
@@ -5560,7 +5564,7 @@ require.define("/lib/object.js", function (require, module, exports, __dirname, 
     };
 
     _object.prototype.afterValue = function() {
-      var i, len, ob, path, sc, schema;
+      var default_, i, len, ob, path, sc, schema;
       ob = this._value;
       schema = this.schema;
       len = schema.length;
@@ -5571,7 +5575,12 @@ require.define("/lib/object.js", function (require, module, exports, __dirname, 
         if (path.exists()) {
           path.set(sc[1].value(path.get()).value());
         } else {
-          sc[1].value(null);
+          default_ = sc[1].value(null).value();
+          if (default_) {
+            path.set(default_);
+          } else {
+            sc[1].value(null);
+          }
         }
         i++;
       }
@@ -6820,6 +6829,26 @@ require.define("/test/object.test.coffee", function (require, module, exports, _
           return done();
         });
       });
+      it("should add defaults to inner objects", function(done) {
+        var obj;
+        schema = type.object({
+          test: type.object({
+            login: type.string()["default"]('a').required(),
+            email: type.string()["default"]('a@example.com').required().email()
+          })
+        });
+        obj = schema.val({
+          test: {
+            login: "b"
+          }
+        });
+        return obj.validate(function(errs, doc) {
+          equal(obj.value().test.login, 'b');
+          equal(obj.value().test.email, 'a@example.com');
+          ok(!errs);
+          return done();
+        });
+      });
       it("should be able to ignore undefined attribute", function() {});
       it("should be able to validate required attribute", function(done) {
         var errs;
@@ -7166,11 +7195,16 @@ require.define("/test/string.test.coffee", function (require, module, exports, _
         type.string().val({}).validate(function(err) {
           return ok(err && err.messages());
         });
-        type.string().val([]).validate(function(err) {
+        return type.string().val([]).validate(function(err) {
           return ok(err && err.messages());
         });
-        return type.string().val(4).validate(function(err) {
-          return ok(err && err.messages());
+      });
+      it("should convert numbers", function() {
+        type.string().val(4).validate(function(err) {
+          return ok(!err);
+        });
+        return type.string().val(4.5).validate(function(err) {
+          return ok(!err);
         });
       });
       return it("should support enum validate", function() {
