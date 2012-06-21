@@ -6,9 +6,9 @@ describe "type", ->
     it "should have number type", ->
       ok type.number
 
-    it "should convert type", ->
+    it "should not convert type", ->
       strictEqual type.number().val("23dd").val(), "23dd"
-      strictEqual type.number().val("23.11").val(), 23.11
+      strictEqual type.number().val("23.11").val(), "23.11"
       strictEqual type.number().val(23.11).val(), 23.11
 
     it "should be able to compare", ->
@@ -21,14 +21,20 @@ describe "type", ->
       ok type.number().notEmpty().val(0.0).validate()
       ok not type.number().notEmpty().val(1).validate()
 
+    it "should not accept strings", ->
+      ok type.number().val('0').validate(), '"0"'
+      ok type.number().val('0.0').validate(), '"0.0"'
+      ok type.number().val('1').validate(), '"1"'
+      ok type.number().val('0.1').validate(), '"0.1"'
+
   describe "integer", ->
     it "should have integer type", ->
       ok type.integer
 
-    it "should convert type", ->
+    it "should not convert type", ->
       strictEqual type.integer().val("23dd").val(), "23dd"
       strictEqual type.integer().val("23.11").val(), "23.11"
-      strictEqual type.integer().val("23").val(), 23
+      strictEqual type.integer().val("23").val(), "23"
       strictEqual type.integer().val(23.11).val(), 23.11
       strictEqual type.integer().val("sfd").val(), "sfd"
       strictEqual type.integer().val(null).val(), null

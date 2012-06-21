@@ -18,7 +18,7 @@ describe "type", ->
       equal err.messages().length, 1
 
     it "should have item schema", ->
-      schema = type.array(type.number().max(2)).len(5).val([ 1, "2", 3 ])
+      schema = type.array(type.number().max(2)).len(5).val([ 1, 2, 3 ])
       deepEqual schema.val(), [ 1, 2, 3 ]
       errs = schema.validate((errs) ->
         equal errs.messages().length, 2
@@ -92,7 +92,7 @@ describe "type", ->
       equal errs.messages().length, 3
 
     it "should have item schema of clone", ->
-      schema = type.array(type.number().max(2)).len(5).clone().val([ 1, "2", 3 ])
+      schema = type.array(type.number().max(2)).len(5).clone().val([ 1, 2, 3 ])
       deepEqual schema.val(), [ 1, 2, 3 ]
       errs = schema.validate((errs) ->
         equal errs.messages().length, 2
