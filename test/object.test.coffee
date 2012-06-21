@@ -154,13 +154,13 @@ describe "type", ->
       errs = schema.validate()
       ok not errs
 
-    it "should support context in coustom validator", ->
+    it "should support context in custom validator", ->
       schema = type.object(login: type.string().validator((val) ->
         ok @login
         equal @login, "admin"
         true
-      ))
-      schema.val(login: "admin").validate()
+      ), other: type.object(a: type.string()).validator((val) -> ok @login; equal @login, "admin"))
+      schema.val(login: "admin", other: {a: "hi"}).validate()
 
     it "should raise if array", ->
       schema = type.object(test: type.string()).required()
