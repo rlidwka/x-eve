@@ -162,6 +162,15 @@ describe "type", ->
       ), other: type.object(a: type.string()).validator((val) -> ok @login; equal @login, "admin"))
       schema.val(login: "admin", other: {a: "hi"}).validate()
 
+
+    it "should support context in custom validator with value assigned by default", ->
+      schema = type.object(login: type.string().default('admon').validator((val) ->
+        ok @login
+        equal @login, "admon"
+        true
+      ), other: type.object(a: type.string()).validator((val) -> ok @login; equal @login, "admon"))
+      schema.val(other: {a: "hi"}).validate()
+
     it "should raise if array", ->
       schema = type.object(test: type.string()).required()
       errs = schema.val(["hi"]).validate((errs) ->
