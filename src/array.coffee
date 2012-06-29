@@ -13,12 +13,15 @@ class type._array extends type.Base
 
   clone: ->
     #console.log @original_schema
-    obj = new @constructor(@original_schema.clone())
-    for key, val of @
-      if @hasOwnProperty(key) && key != '_value' && key != 'schema'
-        obj[key] = val
-    return obj
-    
+    if @original_schema
+      obj = new @constructor(@original_schema.clone())
+      for key, val of @
+        if @hasOwnProperty(key) && key != '_value' && key != 'schema'
+          obj[key] = val
+      return obj
+    else
+      return new @constructor(undefined)
+
   len: (minOrLen, max, msg) ->
     last = arguments[arguments.length - 1]
     msg = if typeof last is "number" then null else last
@@ -49,10 +52,10 @@ class type._array extends type.Base
     if (@_value == null || @_value == undefined || @_value.length == 0 || !validator.isArray(@_value))
       er2 = @_validate (err) -> callback(err) if callback
     else
-      er2 = @_validate (err) ->        
+      er2 = @_validate (err) ->
         er1 = self.schema and self._value and self._value.length and self.validateChild(err, callback) or null
         callback(err) if err and callback
-      
+
     er1 or er2
 
   validateChild: (err, callback) ->
