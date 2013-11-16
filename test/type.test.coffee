@@ -76,6 +76,6 @@ describe "type", ->
       equal(err.messages()[0], "Name is invalid")
     
     it "should enable map Object to type", ->
-      ok( type( String ) instanceof type._string )
-      ok( type( type.string() ) instanceof type._string )
+      ok( type( String ) instanceof type.string )
+      ok( type( type.string() ) instanceof type.string )
       ok( !type("not a type") )

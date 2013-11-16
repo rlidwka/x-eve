@@ -6,7 +6,7 @@ validator = eve.validator
 
 validator.isGood =  (str) -> @isString(str) && str == 'good'
 
-type._string::good = ( msg ) ->
+type.string::good = ( msg ) ->
   @_good = true
   @validator (( str ) -> str && validator.isGood(str) ), message("good", msg)
   @
