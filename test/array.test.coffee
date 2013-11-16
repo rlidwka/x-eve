@@ -57,12 +57,15 @@ describe "type", ->
       )
       ok errs
       equal errs.messages().length, 1
+
+    it "should cast string to an array", ->
+      schema = type.array()
       errs = schema.val("").validate((errs) ->
-        ok errs
-        equal errs.messages().length, 1
+        ok !errs
       )
-      ok errs
-      equal errs.messages().length, 1
+      ok !errs
+      equal schema.val('').val()[0], ''
+      equal schema.val('1,2,3').val()[2], '3'
 
     it "should raise if empty", ->
       schema = type.object(test: type.array(type.number().required()).notEmpty()).required()
