@@ -1,12 +1,12 @@
 {
 	"name": "EVE"
 	, "private": true
-	, "version": "0.0.6-metakeule"
+	, "version": "0.0.5-metakeule"
 	, "description": "A JavaScript object schema, processor and validation lib."
 	, "keywords": ["schema", "process", "validate"]
 	, "author": "Hidden <zzdhidden@gmail.com>"
 	, "dependencies": {}
-	, "devDependencies": {
+	, "devDependencies": { 
 			"mocha": "*"
 		, "chai": "*"
 		, "browserify": "*"
