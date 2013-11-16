@@ -3,4 +3,7 @@ test:
 	@NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script --slow 20 --growl \
 		./test/*.test.coffee ./test/*.test.js 
 
-.PHONY: test
+browser:
+	./node_modules/.bin/browserify browser.tests.js -o test/browser/browserify.js
+
+.PHONY: test browser
