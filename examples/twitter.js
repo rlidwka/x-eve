@@ -1,25 +1,28 @@
-(function() {
-  var eve, statusSchema, statuses, type;
+/**
+ *
+ * Get twitter statuses and then automatic convert date string to date type
+ *
+ */
 
-  eve = require("../index");
+var eve = require("../index.js")
+	, type = eve.type
+	, statuses = require("./fixtures/public_timeline.json");
 
-  type = eve.type;
+var statusSchema = type.object({
+	created_at: 
+		type.date() 
+	, user: {
+		"profile_link_color": 
+			type.string()
+		, "created_at": 
+			type.date()
+	}
+});
 
-  statuses = require("./fixtures/public_timeline.json");
 
-  statusSchema = type.object({
-    created_at: type.date(),
-    user: {
-      "profile_link_color": type.string(),
-      "created_at": type.date()
-    }
-  });
+statuses = type.array( statusSchema ).val( statuses ).val();
 
-  statuses = type.array(statusSchema).val(statuses).val();
+statuses.forEach( function( status ) {
+	console.log( typeof status.created_at );
+} );
 
-  statuses.forEach(function(status) {
-    console.log(status.created_at + " " + status.text.slice(0, 21));
-    return console.log(status.created_at.constructor);
-  });
-
-}).call(this);
