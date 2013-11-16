@@ -1,4 +1,3 @@
-[![build status](https://secure.travis-ci.org/metakeule/EVE.png)](http://travis-ci.org/metakeule/EVE)
 EVE(Development)
 =============================
 
