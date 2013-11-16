@@ -218,3 +218,15 @@ describe "type", ->
         email: String
       )
       strictEqual schema.val(login: "123").val().login, "123"
+
+    it "should filter out unspecified fields", ->
+      schema = type.object(
+        login: type.string()
+      )
+      val = schema.val(
+        login: "test"
+        garbage: "123"
+      ).val()
+      ok(val.hasOwnProperty "login")
+      ok(!val.hasOwnProperty "garbage")
+
