@@ -1,10 +1,6 @@
 {assert, ok, fail, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual, eve} = require "./helper"
 
 describe "validator", ->
-  describe "version", ->
-    it "should have version", ->
-      ok eve.version
-
   describe "type", ->
     it "should recognise array", ->
       ok eve.validator.isArray([])
