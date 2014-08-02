@@ -1,6 +1,6 @@
 // vim: syntax=javascript
 {
-	name: 'EVE',
+	name: 'x-eve',
 	version: '0.1.0',
 	descripton: 'A JavaScript object schema, processor and validation lib.',
 	keywords: ["schema", "process", "validate"],
