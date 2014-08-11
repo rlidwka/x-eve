@@ -1,8 +1,8 @@
 `x-eve` - a JavaScript object schema, processor and validation lib ([EVE](https://github.com/zzdhidden/EVE/) fork)
 
-[![npm version badge](https://img.shields.io/npm/v/jju.svg)](https://www.npmjs.org/package/jju)
-[![travis badge](http://img.shields.io/travis/rlidwka/jju.svg)](https://travis-ci.org/rlidwka/jju)
-[![downloads badge](http://img.shields.io/npm/dm/jju.svg)](https://www.npmjs.org/package/jju)
+[![npm version badge](https://img.shields.io/npm/v/x-eve.svg)](https://www.npmjs.org/package/x-eve)
+[![travis badge](http://img.shields.io/travis/rlidwka/x-eve.svg)](https://travis-ci.org/rlidwka/x-eve)
+[![downloads badge](http://img.shields.io/npm/dm/x-eve.svg)](https://www.npmjs.org/package/x-eve)
 
 ![EVE](https://github.com/rlidwka/EVE/raw/master/eve.png)
 

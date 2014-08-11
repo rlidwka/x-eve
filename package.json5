@@ -13,6 +13,11 @@
 		email: 'alex@kocharin.ru',
 	},
 
+	scripts: {
+		test: 'mocha --compilers coffee:coffee-script/register --slow 20 --growl ./test/*.test.coffee',
+		browser: 'browserify browser.tests.js -o test/browser/browserify.js',
+	},
+
 	dependencies: {},
 	devDependencies: {
 		'mocha': '*',
