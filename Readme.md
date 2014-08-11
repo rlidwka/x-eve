@@ -1,9 +1,10 @@
-EVE(Development)
-=============================
+`x-eve` - a JavaScript object schema, processor and validation lib ([EVE](https://github.com/zzdhidden/EVE/) fork)
 
-A JavaScript object schema, processor and validation lib.
+[![npm version badge](https://img.shields.io/npm/v/jju.svg)](https://www.npmjs.org/package/jju)
+[![travis badge](http://img.shields.io/travis/rlidwka/jju.svg)](https://travis-ci.org/rlidwka/jju)
+[![downloads badge](http://img.shields.io/npm/dm/jju.svg)](https://www.npmjs.org/package/jju)
 
-![EVE](https://github.com/zzdhidden/EVE/raw/master/eve.png)
+![EVE](https://github.com/rlidwka/EVE/raw/master/eve.png)
 
 ```js
 var schema = type.object({
@@ -54,6 +55,7 @@ to build and serve the browser tests.
 
 Released under the MIT, BSD, and GPL Licenses.
 
+Copyright (c) 2013 Alex Kocharin &lt;alex@kocharin.ru&gt;
 Copyright (c) 2011 hidden &lt;zzdhidden@gmail.com&gt;
 
 

@@ -1,10 +1,18 @@
 // vim: syntax=javascript
+// use "yapm install ." if you're installing this from git repository
 {
 	name: 'x-eve',
 	version: '1.0.0',
-	descripton: 'A JavaScript object schema, processor and validation lib.',
+	descripton: 'a JavaScript object schema, processor and validation lib',
 	keywords: ["schema", "process", "validate"],
-	author: "Hidden <zzdhidden@gmail.com>",
+
+	// forked from EVE,
+	// original author: Hidden <zzdhidden@gmail.com>
+	author: {
+		name: 'Alex Kocharin',
+		email: 'alex@kocharin.ru',
+	},
+
 	dependencies: {},
 	devDependencies: {
 		'mocha': '*',
@@ -13,8 +21,15 @@
 		'node-static': '*',
 		'coffee-script': '^1.7',
 	},
+	publishConfig: {
+		registry: 'https://registry.npmjs.org/',
+	},
 	repository: {
 		type: 'git',
 		url: 'http://github.com/rlidwka/x-eve.git',
 	},
+	bugs: {
+		url: 'https://github.com/rlidwka/x-eve/issues',
+	},
+	license: 'MIT',
 }
