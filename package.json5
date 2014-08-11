@@ -2,7 +2,7 @@
 // use "yapm install ." if you're installing this from git repository
 {
 	name: 'x-eve',
-	version: '1.0.0',
+	version: '1.0.1',
 	descripton: 'a JavaScript object schema, processor and validation lib',
 	keywords: ["schema", "process", "validate"],
 
