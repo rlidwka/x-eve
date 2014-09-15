@@ -15,15 +15,11 @@
 
 	scripts: {
 		test: 'mocha --compilers coffee:coffee-script/register --slow 20 --growl ./test/*.test.js ./test/*.test.coffee',
-		browser: 'browserify browser.tests.js -o test/browser/browserify.js',
 	},
 
 	dependencies: {},
 	devDependencies: {
 		'mocha': '*',
-		'chai': '*',
-		'browserify': '*',
-		'node-static': '*',
 		'coffee-script': '^1.7',
 	},
 	publishConfig: {

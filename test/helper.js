@@ -16,11 +16,6 @@ if (typeof require !== 'undefined') {
   var require = function() {}
 }
 
-// old coffee stuff
-if (typeof window !== 'undefined')
-  exporter = window.chai.assert
-else
-  exporter = require("chai").assert
-
+exporter = Object.create(require("assert"))
 exporter.eve = require('../lib/eve.js')
 exports = module.exports = exporter
